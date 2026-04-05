@@ -3,7 +3,7 @@
 	<head>
 		<meta charset="UTF-8" />
 		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-		<title>🐣 Easter Slash — For You 💕</title>
+		<title>🐣 Easter Slash For You 💕</title>
 		<style>
 			@import url("https://fonts.googleapis.com/css2?family=Fredoka+One&family=Nunito:ital,wght@0,400;0,700;0,900;1,700&display=swap");
 
@@ -15,11 +15,7 @@
 				--gold: #f59e0b;
 			}
 
-			* {
-				margin: 0;
-				padding: 0;
-				box-sizing: border-box;
-			}
+			* { margin: 0; padding: 0; box-sizing: border-box; }
 
 			body {
 				background: linear-gradient(135deg, #fdf0f8 0%, #f0e6ff 100%);
@@ -32,11 +28,7 @@
 				overflow: hidden;
 			}
 
-			#root {
-				display: flex;
-				gap: 16px;
-				align-items: flex-start;
-			}
+			#root { display: flex; gap: 16px; align-items: flex-start; }
 
 			#gameWrapper {
 				position: relative;
@@ -48,328 +40,83 @@
 			canvas {
 				display: block;
 				border-radius: 28px;
-				box-shadow:
-					0 20px 60px rgba(230, 71, 139, 0.25),
-					0 4px 20px rgba(0, 0, 0, 0.1);
+				box-shadow: 0 20px 60px rgba(230,71,139,.25), 0 4px 20px rgba(0,0,0,.1);
 				cursor: crosshair;
 			}
 
 			#ui {
-				position: absolute;
-				top: 0;
-				left: 0;
-				right: 0;
-				pointer-events: none;
-				padding: 12px 14px;
-				display: flex;
-				justify-content: space-between;
-				align-items: flex-start;
-				gap: 6px;
+				position: absolute; top: 0; left: 0; right: 0;
+				pointer-events: none; padding: 12px 14px;
+				display: flex; justify-content: space-between; align-items: flex-start; gap: 6px;
 			}
 
-			.pill {
-				background: rgba(255, 255, 255, 0.9);
-				border-radius: 40px;
-				backdrop-filter: blur(8px);
-				box-shadow: 0 2px 12px rgba(230, 71, 139, 0.18);
-			}
-			.score-box {
-				padding: 6px 14px;
-			}
-			.score-label {
-				font-size: 9px;
-				font-weight: 900;
-				color: var(--pink);
-				letter-spacing: 1.5px;
-				text-transform: uppercase;
-			}
-			.score-val {
-				font-family: "Fredoka One", cursive;
-				font-size: 24px;
-				color: #b52e6f;
-				line-height: 1.1;
-			}
+			.pill { background: rgba(255,255,255,.9); border-radius: 40px; backdrop-filter: blur(8px); box-shadow: 0 2px 12px rgba(230,71,139,.18); }
+			.score-box { padding: 6px 14px; }
+			.score-label { font-size: 9px; font-weight: 900; color: var(--pink); letter-spacing: 1.5px; text-transform: uppercase; }
+			.score-val { font-family: "Fredoka One", cursive; font-size: 24px; color: #b52e6f; line-height: 1.1; }
 
-			#lives-box {
-				display: flex;
-				gap: 2px;
-				align-items: center;
-				padding: 9px 11px;
-				font-size: 19px;
-				min-width: 72px;
-				justify-content: center;
-			}
+			#lives-box { display: flex; gap: 2px; align-items: center; padding: 9px 11px; font-size: 19px; min-width: 72px; justify-content: center; }
 
-			#timer-box {
-				padding: 6px 14px;
-				text-align: center;
-			}
-			#timer-label {
-				font-size: 9px;
-				font-weight: 900;
-				color: var(--purple);
-				letter-spacing: 1.5px;
-				text-transform: uppercase;
-			}
-			#timer-val {
-				font-family: "Fredoka One", cursive;
-				font-size: 24px;
-				color: var(--purple);
-				line-height: 1.1;
-				transition: color 0.3s;
-			}
-			#timer-val.urgent {
-				color: #ef4444;
-				animation: pulse 0.5s ease infinite alternate;
-			}
-			@keyframes pulse {
-				from {
-					transform: scale(1);
-				}
-				to {
-					transform: scale(1.12);
-				}
-			}
+			#timer-box { padding: 6px 14px; text-align: center; }
+			#timer-label { font-size: 9px; font-weight: 900; color: var(--purple); letter-spacing: 1.5px; text-transform: uppercase; }
+			#timer-val { font-family: "Fredoka One", cursive; font-size: 24px; color: var(--purple); line-height: 1.1; transition: color .3s; }
+			#timer-val.urgent { color: #ef4444; animation: pulse .5s ease infinite alternate; }
+			@keyframes pulse { from { transform: scale(1); } to { transform: scale(1.12); } }
 
-			#progressStrip {
-				position: absolute;
-				bottom: 0;
-				left: 0;
-				right: 0;
-				pointer-events: none;
-				padding: 8px 12px 12px;
-			}
-			#progressWrap {
-				background: rgba(255, 255, 255, 0.84);
-				border-radius: 50px;
-				padding: 5px 10px;
-				backdrop-filter: blur(8px);
-				box-shadow: 0 2px 12px rgba(230, 71, 139, 0.18);
-				display: flex;
-				align-items: center;
-				gap: 7px;
-			}
-			#progressLabel {
-				font-size: 10px;
-				font-weight: 900;
-				color: var(--pink);
-				white-space: nowrap;
-				min-width: 50px;
-			}
-			#progressBar {
-				flex: 1;
-				height: 9px;
-				background: #fce7f3;
-				border-radius: 50px;
-				overflow: hidden;
-			}
-			#progressFill {
-				height: 100%;
-				border-radius: 50px;
-				background: linear-gradient(90deg, #f472b6, #e8478b, #9333ea);
-				transition: width 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
-				width: 0%;
-				position: relative;
-			}
-			#progressFill::after {
-				content: "";
-				position: absolute;
-				right: 0;
-				top: 0;
-				bottom: 0;
-				width: 12px;
-				background: rgba(255, 255, 255, 0.5);
-				border-radius: 50px;
-				animation: shimmer 1.2s ease infinite;
-			}
-			@keyframes shimmer {
-				0% {
-					opacity: 0.3;
-				}
-				50% {
-					opacity: 0.9;
-				}
-				100% {
-					opacity: 0.3;
-				}
-			}
-			#nextMilestone {
-				font-size: 10px;
-				font-weight: 900;
-				color: var(--purple);
-				white-space: nowrap;
-				min-width: 42px;
-				text-align: right;
-			}
+			#progressStrip { position: absolute; bottom: 0; left: 0; right: 0; pointer-events: none; padding: 8px 12px 12px; }
+			#progressWrap { background: rgba(255,255,255,.84); border-radius: 50px; padding: 5px 10px; backdrop-filter: blur(8px); box-shadow: 0 2px 12px rgba(230,71,139,.18); display: flex; align-items: center; gap: 7px; }
+			#progressLabel { font-size: 10px; font-weight: 900; color: var(--pink); white-space: nowrap; min-width: 50px; }
+			#progressBar { flex: 1; height: 9px; background: #fce7f3; border-radius: 50px; overflow: hidden; }
+			#progressFill { height: 100%; border-radius: 50px; background: linear-gradient(90deg,#f472b6,#e8478b,#9333ea); transition: width .35s cubic-bezier(.34,1.56,.64,1); width: 0%; position: relative; }
+			#progressFill::after { content: ""; position: absolute; right: 0; top: 0; bottom: 0; width: 12px; background: rgba(255,255,255,.5); border-radius: 50px; animation: shimmer 1.2s ease infinite; }
+			@keyframes shimmer { 0%{opacity:.3} 50%{opacity:.9} 100%{opacity:.3} }
+			#nextMilestone { font-size: 10px; font-weight: 900; color: var(--purple); white-space: nowrap; min-width: 42px; text-align: right; }
 
-			#comboDisplay {
-				position: absolute;
-				top: 74px;
-				left: 50%;
-				transform: translateX(-50%);
-				font-family: "Fredoka One", cursive;
-				font-size: 19px;
-				color: var(--gold);
-				text-shadow: 0 2px 8px rgba(245, 158, 11, 0.4);
-				pointer-events: none;
-				opacity: 0;
-				transition: opacity 0.3s;
-				white-space: nowrap;
-			}
+			#comboDisplay { position: absolute; top: 74px; left: 50%; transform: translateX(-50%); font-family: "Fredoka One", cursive; font-size: 19px; color: var(--gold); text-shadow: 0 2px 8px rgba(245,158,11,.4); pointer-events: none; opacity: 0; transition: opacity .3s; white-space: nowrap; }
 
-			#overlay {
-				position: absolute;
-				inset: 0;
-				display: flex;
-				flex-direction: column;
-				align-items: center;
-				justify-content: center;
-				border-radius: 28px;
-				background: rgba(253, 240, 248, 0.96);
-				backdrop-filter: blur(10px);
-			}
-			#overlay .big-emoji {
-				font-size: 60px;
-				animation: sway 2.5s ease-in-out infinite alternate;
-				margin-bottom: 6px;
-			}
-			#overlay h1 {
-				font-family: "Fredoka One", cursive;
-				font-size: 40px;
-				color: var(--pink);
-				text-shadow: 0 4px 0 #f9a8d4;
-				margin-bottom: 4px;
-			}
-			#overlay .sub {
-				font-size: 12.5px;
-				color: #c4629e;
-				font-weight: 700;
-				margin-bottom: 16px;
-				text-align: center;
-				padding: 0 24px;
-				line-height: 1.5;
-			}
+			#overlay { position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; border-radius: 28px; background: rgba(253,240,248,.96); backdrop-filter: blur(10px); }
+			#overlay .big-emoji { font-size: 60px; animation: sway 2.5s ease-in-out infinite alternate; margin-bottom: 6px; }
+			#overlay h1 { font-family: "Fredoka One", cursive; font-size: 40px; color: var(--pink); text-shadow: 0 4px 0 #f9a8d4; margin-bottom: 4px; }
+			#overlay .sub { font-size: 12.5px; color: #c4629e; font-weight: 700; margin-bottom: 16px; text-align: center; padding: 0 24px; line-height: 1.5; }
 
-			.legend {
-				display: grid;
-				grid-template-columns: 1fr 1fr;
-				gap: 4px 16px;
-				background: rgba(255, 255, 255, 0.7);
-				border-radius: 16px;
-				padding: 10px 18px;
-				margin-bottom: 16px;
-				font-size: 12px;
-				font-weight: 700;
-				color: #5b2a42;
-			}
-			.legend-item {
-				display: flex;
-				align-items: center;
-				gap: 5px;
-			}
-			.legend-item.bad {
-				color: #ef4444;
-			}
-			.legend-item.life {
-				color: #dc2626;
-			}
+			.legend { display: grid; grid-template-columns: 1fr 1fr; gap: 4px 16px; background: rgba(255,255,255,.7); border-radius: 16px; padding: 10px 18px; margin-bottom: 16px; font-size: 12px; font-weight: 700; color: #5b2a42; }
+			.legend-item { display: flex; align-items: center; gap: 5px; }
+			.legend-item.bad { color: #ef4444; }
+			.legend-item.life { color: #dc2626; }
 
-			.best-row {
-				font-size: 13px;
-				color: #b06090;
-				font-weight: 700;
-				margin-bottom: 18px;
-			}
+			.best-row { font-size: 13px; color: #b06090; font-weight: 700; margin-bottom: 18px; }
 
-			#startBtn {
-				font-family: "Fredoka One", cursive;
-				font-size: 22px;
-				background: linear-gradient(135deg, #f472b6, #e8478b);
-				color: white;
-				border: none;
-				border-radius: 50px;
-				padding: 13px 44px;
-				cursor: pointer;
-				pointer-events: all;
-				box-shadow:
-					0 5px 0 #a0245e,
-					0 8px 24px rgba(196, 64, 122, 0.3);
-				transition:
-					transform 0.1s,
-					box-shadow 0.1s;
-			}
-			#startBtn:hover {
-				transform: translateY(-2px);
-				box-shadow: 0 7px 0 #a0245e;
-			}
-			#startBtn:active {
-				transform: translateY(4px);
-				box-shadow: 0 1px 0 #a0245e;
-			}
+			#startBtn { font-family: "Fredoka One", cursive; font-size: 22px; background: linear-gradient(135deg,#f472b6,#e8478b); color: white; border: none; border-radius: 50px; padding: 13px 44px; cursor: pointer; pointer-events: all; box-shadow: 0 5px 0 #a0245e, 0 8px 24px rgba(196,64,122,.3); transition: transform .1s, box-shadow .1s; }
+			#startBtn:hover { transform: translateY(-2px); box-shadow: 0 7px 0 #a0245e; }
+			#startBtn:active { transform: translateY(4px); box-shadow: 0 1px 0 #a0245e; }
 
-			@keyframes sway {
-				from {
-					transform: rotate(-8deg);
-				}
-				to {
-					transform: rotate(8deg);
-				}
-			}
+			@keyframes sway { from{transform:rotate(-8deg)} to{transform:rotate(8deg)} }
 
 			/* ── EGG INTRO ── */
 			#eggIntro {
-				position: absolute;
-				inset: 0;
-				border-radius: 28px;
-				background: rgba(253, 240, 248, 0.97);
-				backdrop-filter: blur(10px);
-				display: flex;
-				flex-direction: column;
-				align-items: center;
-				justify-content: center;
+				position: absolute; inset: 0; border-radius: 28px;
+				background: rgba(253,240,248,.97); backdrop-filter: blur(10px);
+				display: flex; flex-direction: column; align-items: center; justify-content: center;
 				z-index: 20;
 			}
 
 			#eggCanvas {
-				width: 200px;
-				height: 200px;
-				position: relative;
-				margin-bottom: 10px;
+				width: 200px; height: 200px;
+				position: relative; margin-bottom: 10px;
 			}
 
-			#eggSvg {
-				width: 200px;
-				height: 220px;
-				overflow: visible;
-			}
+			#eggSvg { width: 200px; height: 220px; overflow: visible; }
 
-			.crack-line {
-				stroke: #c4629e;
-				stroke-width: 2.5;
-				fill: none;
-				stroke-linecap: round;
-				opacity: 0;
-				transition: opacity 0.15s;
-			}
+			.crack-line { stroke: #c4629e; stroke-width: 2.5; fill: none; stroke-linecap: round; opacity: 0; transition: opacity .15s; }
 
-			#eggTop {
-				transition: transform 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
-				transform-origin: 100px 80px;
-			}
-			#eggBottom {
-				transition: transform 0.5s ease;
-			}
+			#eggTop { transition: transform .5s cubic-bezier(.34,1.56,.64,1); transform-origin: 100px 80px; }
+			#eggBottom { transition: transform .5s ease; }
 
-			#chickPeek {
-				opacity: 0;
-				transition: opacity 0.4s;
-				transform-origin: 100px 160px;
-			}
+			#chickPeek { opacity: 0; transition: opacity .4s; transform-origin: 100px 160px; }
 
 			#introText {
 				font-family: "Fredoka One", cursive;
-				font-size: 15px;
-				color: #b52e6f;
+				font-size: 15px; color: #b52e6f;
 				text-align: center;
 				min-height: 52px;
 				padding: 0 24px;
@@ -378,283 +125,63 @@
 			}
 
 			#introSubText {
-				font-size: 13px;
-				font-weight: 700;
-				color: #c4629e;
-				text-align: center;
-				padding: 0 28px;
-				line-height: 1.5;
-				min-height: 36px;
-				margin-bottom: 12px;
-				opacity: 0;
-				transition: opacity 0.5s;
+				font-size: 13px; font-weight: 700;
+				color: #c4629e; text-align: center;
+				padding: 0 28px; line-height: 1.5;
+				min-height: 36px; margin-bottom: 12px;
+				opacity: 0; transition: opacity .5s;
 			}
 
 			#yesBtn {
 				font-family: "Fredoka One", cursive;
 				font-size: 20px;
-				background: linear-gradient(135deg, #f472b6, #e8478b);
-				color: white;
-				border: none;
-				border-radius: 50px;
-				padding: 12px 40px;
-				cursor: pointer;
-				box-shadow:
-					0 5px 0 #a0245e,
-					0 8px 24px rgba(196, 64, 122, 0.3);
-				opacity: 0;
-				transition:
-					opacity 0.4s,
-					transform 0.1s,
-					box-shadow 0.1s;
+				background: linear-gradient(135deg,#f472b6,#e8478b);
+				color: white; border: none; border-radius: 50px;
+				padding: 12px 40px; cursor: pointer;
+				box-shadow: 0 5px 0 #a0245e, 0 8px 24px rgba(196,64,122,.3);
+				opacity: 0; transition: opacity .4s, transform .1s, box-shadow .1s;
 				pointer-events: none;
 			}
-			#yesBtn.visible {
-				opacity: 1;
-				pointer-events: all;
-			}
-			#yesBtn:hover {
-				transform: translateY(-2px);
-			}
-			#yesBtn:active {
-				transform: translateY(3px);
-				box-shadow: 0 1px 0 #a0245e;
-			}
+			#yesBtn.visible { opacity: 1; pointer-events: all; }
+			#yesBtn:hover { transform: translateY(-2px); }
+			#yesBtn:active { transform: translateY(3px); box-shadow: 0 1px 0 #a0245e; }
 
-			.heart-burst {
-				position: absolute;
-				font-size: 22px;
-				pointer-events: none;
-				animation: burstOut 0.9s ease-out forwards;
-			}
-			@keyframes burstOut {
-				0% {
-					transform: translate(-50%, -50%) scale(0);
-					opacity: 1;
-				}
-				100% {
-					transform: translate(var(--tx), var(--ty)) scale(1.2);
-					opacity: 0;
-				}
-			}
+			.heart-burst { position: absolute; font-size: 22px; pointer-events: none; animation: burstOut .9s ease-out forwards; }
+			@keyframes burstOut { 0%{transform:translate(-50%,-50%) scale(0);opacity:1} 100%{transform:translate(var(--tx),var(--ty)) scale(1.2);opacity:0} }
 
 			/* ── Message Panel ── */
-			#msgPanel {
-				width: 210px;
-				display: flex;
-				flex-direction: column;
-				gap: 8px;
-				max-height: 620px;
-				overflow-y: auto;
-				scrollbar-width: none;
-				padding-bottom: 4px;
-			}
-			#msgPanel::-webkit-scrollbar {
-				display: none;
-			}
-			#msgPanelTitle {
-				font-family: "Fredoka One", cursive;
-				font-size: 15px;
-				color: var(--pink);
-				text-align: center;
-				padding: 6px 0 0;
-			}
-			#msgPanelSub {
-				font-size: 10.5px;
-				color: #c4629e;
-				text-align: center;
-				font-weight: 700;
-				margin-bottom: 2px;
-			}
-			.msg-card {
-				background: white;
-				border-radius: 16px;
-				padding: 10px 13px;
-				box-shadow: 0 2px 12px rgba(230, 71, 139, 0.1);
-				border: 2px solid transparent;
-				transition:
-					border-color 0.4s,
-					box-shadow 0.4s;
-			}
-			.msg-card.locked {
-				background: rgba(255, 255, 255, 0.42);
-				box-shadow: none;
-				border-color: #f9a8d430;
-			}
-			.msg-card.unlocked {
-				border-color: #f9a8d4;
-				animation: cardPop 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
-			}
-			.msg-card.newly-unlocked {
-				border-color: var(--pink);
-				box-shadow:
-					0 0 0 3px #f9a8d470,
-					0 5px 20px rgba(230, 71, 139, 0.22);
-			}
-			@keyframes cardPop {
-				from {
-					transform: scale(0.85);
-					opacity: 0;
-				}
-				to {
-					transform: scale(1);
-					opacity: 1;
-				}
-			}
-			.card-score {
-				font-family: "Fredoka One", cursive;
-				font-size: 11px;
-				color: var(--pink);
-				margin-bottom: 4px;
-				display: flex;
-				align-items: center;
-				gap: 4px;
-			}
-			.card-dot {
-				width: 6px;
-				height: 6px;
-				border-radius: 50%;
-				background: var(--pink-light);
-				flex-shrink: 0;
-			}
-			.msg-card.unlocked .card-dot,
-			.msg-card.newly-unlocked .card-dot {
-				background: var(--pink);
-			}
-			.card-msg {
-				font-size: 11.5px;
-				line-height: 1.55;
-				color: #5b2a42;
-				font-style: italic;
-				font-weight: 700;
-			}
-			.card-lock {
-				font-size: 11px;
-				color: #c4aab7;
-				font-weight: 700;
-			}
+			#msgPanel { width: 210px; display: flex; flex-direction: column; gap: 8px; max-height: 620px; overflow-y: auto; scrollbar-width: none; padding-bottom: 4px; }
+			#msgPanel::-webkit-scrollbar { display: none; }
+			#msgPanelTitle { font-family: "Fredoka One", cursive; font-size: 15px; color: var(--pink); text-align: center; padding: 6px 0 0; }
+			#msgPanelSub { font-size: 10.5px; color: #c4629e; text-align: center; font-weight: 700; margin-bottom: 2px; }
+			.msg-card { background: white; border-radius: 16px; padding: 10px 13px; box-shadow: 0 2px 12px rgba(230,71,139,.1); border: 2px solid transparent; transition: border-color .4s, box-shadow .4s; }
+			.msg-card.locked { background: rgba(255,255,255,.42); box-shadow: none; border-color: #f9a8d430; }
+			.msg-card.unlocked { border-color: #f9a8d4; animation: cardPop .5s cubic-bezier(.34,1.56,.64,1); }
+			.msg-card.newly-unlocked { border-color: var(--pink); box-shadow: 0 0 0 3px #f9a8d470, 0 5px 20px rgba(230,71,139,.22); }
+			@keyframes cardPop { from{transform:scale(.85);opacity:0} to{transform:scale(1);opacity:1} }
+			.card-score { font-family: "Fredoka One", cursive; font-size: 11px; color: var(--pink); margin-bottom: 4px; display: flex; align-items: center; gap: 4px; }
+			.card-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--pink-light); flex-shrink: 0; }
+			.msg-card.unlocked .card-dot, .msg-card.newly-unlocked .card-dot { background: var(--pink); }
+			.card-msg { font-size: 11.5px; line-height: 1.55; color: #5b2a42; font-style: italic; font-weight: 700; }
+			.card-lock { font-size: 11px; color: #c4aab7; font-weight: 700; }
 
 			/* ── Love Popup ── */
-			#lovePopup {
-				position: fixed;
-				inset: 0;
-				display: flex;
-				align-items: center;
-				justify-content: center;
-				z-index: 999;
-				pointer-events: none;
-				opacity: 0;
-				transition: opacity 0.3s;
-			}
-			#lovePopup.show {
-				pointer-events: all;
-				opacity: 1;
-			}
-			#lovePopupBg {
-				position: absolute;
-				inset: 0;
-				background: rgba(253, 240, 248, 0.62);
-				backdrop-filter: blur(6px);
-			}
-			#lovePopupCard {
-				position: relative;
-				background: white;
-				border-radius: 28px;
-				padding: 32px 28px 26px;
-				max-width: 320px;
-				width: 90vw;
-				text-align: center;
-				box-shadow:
-					0 24px 60px rgba(230, 71, 139, 0.28),
-					0 0 0 4px #f9a8d4;
-				transform: scale(0.85);
-				transition: transform 0.45s cubic-bezier(0.34, 1.56, 0.64, 1);
-			}
-			#lovePopup.show #lovePopupCard {
-				transform: scale(1);
-			}
-			#popupEmoji {
-				font-size: 52px;
-				display: block;
-				margin-bottom: 8px;
-				animation: heartbeat 0.8s ease infinite alternate;
-			}
-			#popupMilestone {
-				font-family: "Fredoka One", cursive;
-				font-size: 11px;
-				color: var(--pink);
-				letter-spacing: 1px;
-				text-transform: uppercase;
-				margin-bottom: 5px;
-			}
-			#popupTitle {
-				font-family: "Fredoka One", cursive;
-				font-size: 24px;
-				color: #b52e6f;
-				margin-bottom: 12px;
-			}
-			#popupMsg {
-				font-size: 13.5px;
-				line-height: 1.65;
-				color: #5b2a42;
-				font-style: italic;
-				font-weight: 700;
-				margin-bottom: 20px;
-			}
-			#popupClose {
-				font-family: "Fredoka One", cursive;
-				font-size: 17px;
-				background: linear-gradient(135deg, #f472b6, #e8478b);
-				color: white;
-				border: none;
-				border-radius: 50px;
-				padding: 11px 32px;
-				cursor: pointer;
-				box-shadow: 0 4px 0 #a0245e;
-				transition:
-					transform 0.1s,
-					box-shadow 0.1s;
-			}
-			#popupClose:hover {
-				transform: translateY(-2px);
-			}
-			#popupClose:active {
-				transform: translateY(3px);
-				box-shadow: 0 1px 0 #a0245e;
-			}
-			#popupHearts {
-				position: absolute;
-				inset: 0;
-				pointer-events: none;
-				border-radius: 28px;
-				overflow: hidden;
-			}
-			.floating-heart {
-				position: absolute;
-				animation: floatUp 2.5s ease-out forwards;
-				opacity: 0;
-			}
-			@keyframes floatUp {
-				0% {
-					transform: translateY(0) scale(0.6);
-					opacity: 0;
-				}
-				20% {
-					opacity: 1;
-				}
-				100% {
-					transform: translateY(-180px) scale(1.1);
-					opacity: 0;
-				}
-			}
-			@keyframes heartbeat {
-				from {
-					transform: scale(1);
-				}
-				to {
-					transform: scale(1.12);
-				}
-			}
+			#lovePopup { position: fixed; inset: 0; display: flex; align-items: center; justify-content: center; z-index: 999; pointer-events: none; opacity: 0; transition: opacity .3s; }
+			#lovePopup.show { pointer-events: all; opacity: 1; }
+			#lovePopupBg { position: absolute; inset: 0; background: rgba(253,240,248,.62); backdrop-filter: blur(6px); }
+			#lovePopupCard { position: relative; background: white; border-radius: 28px; padding: 32px 28px 26px; max-width: 320px; width: 90vw; text-align: center; box-shadow: 0 24px 60px rgba(230,71,139,.28), 0 0 0 4px #f9a8d4; transform: scale(.85); transition: transform .45s cubic-bezier(.34,1.56,.64,1); }
+			#lovePopup.show #lovePopupCard { transform: scale(1); }
+			#popupEmoji { font-size: 52px; display: block; margin-bottom: 8px; animation: heartbeat .8s ease infinite alternate; }
+			#popupMilestone { font-family: "Fredoka One", cursive; font-size: 11px; color: var(--pink); letter-spacing: 1px; text-transform: uppercase; margin-bottom: 5px; }
+			#popupTitle { font-family: "Fredoka One", cursive; font-size: 24px; color: #b52e6f; margin-bottom: 12px; }
+			#popupMsg { font-size: 13.5px; line-height: 1.65; color: #5b2a42; font-style: italic; font-weight: 700; margin-bottom: 20px; }
+			#popupClose { font-family: "Fredoka One", cursive; font-size: 17px; background: linear-gradient(135deg,#f472b6,#e8478b); color: white; border: none; border-radius: 50px; padding: 11px 32px; cursor: pointer; box-shadow: 0 4px 0 #a0245e; transition: transform .1s, box-shadow .1s; }
+			#popupClose:hover { transform: translateY(-2px); }
+			#popupClose:active { transform: translateY(3px); box-shadow: 0 1px 0 #a0245e; }
+			#popupHearts { position: absolute; inset: 0; pointer-events: none; border-radius: 28px; overflow: hidden; }
+			.floating-heart { position: absolute; animation: floatUp 2.5s ease-out forwards; opacity: 0; }
+			@keyframes floatUp { 0%{transform:translateY(0) scale(.6);opacity:0} 20%{opacity:1} 100%{transform:translateY(-180px) scale(1.1);opacity:0} }
+			@keyframes heartbeat { from{transform:scale(1)} to{transform:scale(1.12)} }
 		</style>
 	</head>
 	<body>
@@ -669,12 +196,8 @@
 					</div>
 					<div id="lives-box" class="pill">❤️❤️❤️</div>
 					<div class="score-box pill" id="timer-box">
-						<div class="timer-label score-label" style="color: var(--purple)">
-							Time
-						</div>
-						<div class="score-val" id="timer-val" style="color: var(--purple)">
-							50
-						</div>
+						<div class="timer-label score-label" style="color:var(--purple)">Time</div>
+						<div class="score-val" id="timer-val" style="color:var(--purple)">50</div>
 					</div>
 				</div>
 
@@ -690,113 +213,57 @@
 
 				<!-- EGG INTRO SCREEN -->
 				<div id="eggIntro">
-					<svg
-						id="eggSvg"
-						viewBox="0 0 200 220"
-						xmlns="http://www.w3.org/2000/svg"
-					>
+					<svg id="eggSvg" viewBox="0 0 200 220" xmlns="http://www.w3.org/2000/svg">
 						<defs>
 							<radialGradient id="eggGrad" cx="40%" cy="35%" r="60%">
-								<stop offset="0%" stop-color="#fff0f8" />
-								<stop offset="100%" stop-color="#f9a8d4" />
+								<stop offset="0%" stop-color="#fff0f8"/>
+								<stop offset="100%" stop-color="#f9a8d4"/>
 							</radialGradient>
 						</defs>
 
 						<!-- Egg bottom half -->
 						<g id="eggBottom">
-							<path
-								d="M 100 205 C 50 205 20 165 20 130 L 20 130 L 180 130 C 180 165 150 205 100 205 Z"
-								fill="url(#eggGrad)"
-								stroke="#f472b6"
-								stroke-width="2.5"
-							/>
+							<path d="M 100 205 C 50 205 20 165 20 130 L 20 130 L 180 130 C 180 165 150 205 100 205 Z" fill="url(#eggGrad)" stroke="#f472b6" stroke-width="2.5"/>
 						</g>
 
 						<!-- Cracks -->
-						<polyline
-							id="crack1"
-							class="crack-line"
-							points="70,130 62,116 75,108 68,94"
-						/>
-						<polyline
-							id="crack2"
-							class="crack-line"
-							points="100,130 105,118 95,110 102,98"
-						/>
-						<polyline
-							id="crack3"
-							class="crack-line"
-							points="130,130 138,116 125,106 132,92"
-						/>
+						<polyline id="crack1" class="crack-line" points="70,130 62,116 75,108 68,94"/>
+						<polyline id="crack2" class="crack-line" points="100,130 105,118 95,110 102,98"/>
+						<polyline id="crack3" class="crack-line" points="130,130 138,116 125,106 132,92"/>
 
 						<!-- Chick peeking out -->
 						<g id="chickPeek">
 							<!-- body -->
-							<ellipse cx="100" cy="168" rx="26" ry="22" fill="#fbbf24" />
+							<ellipse cx="100" cy="168" rx="26" ry="22" fill="#fbbf24"/>
 							<!-- head -->
-							<circle cx="100" cy="140" r="20" fill="#fde68a" />
+							<circle cx="100" cy="140" r="20" fill="#fde68a"/>
 							<!-- eyes -->
-							<circle cx="93" cy="137" r="3" fill="#1f2937" />
-							<circle cx="107" cy="137" r="3" fill="#1f2937" />
+							<circle cx="93" cy="137" r="3" fill="#1f2937"/>
+							<circle cx="107" cy="137" r="3" fill="#1f2937"/>
 							<!-- eye shine -->
-							<circle cx="94.5" cy="135.5" r="1.2" fill="white" />
-							<circle cx="108.5" cy="135.5" r="1.2" fill="white" />
+							<circle cx="94.5" cy="135.5" r="1.2" fill="white"/>
+							<circle cx="108.5" cy="135.5" r="1.2" fill="white"/>
 							<!-- beak -->
-							<polygon points="100,142 95,147 105,147" fill="#f97316" />
+							<polygon points="100,142 95,147 105,147" fill="#f97316"/>
 							<!-- blush -->
-							<ellipse
-								cx="87"
-								cy="144"
-								rx="5"
-								ry="3.5"
-								fill="#fca5a5"
-								opacity="0.7"
-							/>
-							<ellipse
-								cx="113"
-								cy="144"
-								rx="5"
-								ry="3.5"
-								fill="#fca5a5"
-								opacity="0.7"
-							/>
+							<ellipse cx="87" cy="144" rx="5" ry="3.5" fill="#fca5a5" opacity="0.7"/>
+							<ellipse cx="113" cy="144" rx="5" ry="3.5" fill="#fca5a5" opacity="0.7"/>
 							<!-- wings -->
-							<ellipse
-								cx="76"
-								cy="162"
-								rx="10"
-								ry="14"
-								fill="#fbbf24"
-								transform="rotate(-20 76 162)"
-							/>
-							<ellipse
-								cx="124"
-								cy="162"
-								rx="10"
-								ry="14"
-								fill="#fbbf24"
-								transform="rotate(20 124 162)"
-							/>
+							<ellipse cx="76" cy="162" rx="10" ry="14" fill="#fbbf24" transform="rotate(-20 76 162)"/>
+							<ellipse cx="124" cy="162" rx="10" ry="14" fill="#fbbf24" transform="rotate(20 124 162)"/>
 							<!-- little heart above head -->
-							<text x="100" y="118" text-anchor="middle" font-size="14">
-								💕
-							</text>
+							<text x="100" y="118" text-anchor="middle" font-size="14">💕</text>
 						</g>
 
 						<!-- Egg top half -->
 						<g id="eggTop">
-							<path
-								d="M 20 130 C 20 65 50 18 100 18 C 150 18 180 65 180 130 Z"
-								fill="url(#eggGrad)"
-								stroke="#f472b6"
-								stroke-width="2.5"
-							/>
+							<path d="M 20 130 C 20 65 50 18 100 18 C 150 18 180 65 180 130 Z" fill="url(#eggGrad)" stroke="#f472b6" stroke-width="2.5"/>
 							<!-- Decorative dots on egg -->
-							<circle cx="72" cy="72" r="6" fill="#f9a8d4" opacity="0.8" />
-							<circle cx="100" cy="58" r="5" fill="#c4b5fd" opacity="0.8" />
-							<circle cx="128" cy="72" r="6" fill="#f9a8d4" opacity="0.8" />
-							<circle cx="85" cy="95" r="4" fill="#fde68a" opacity="0.9" />
-							<circle cx="115" cy="92" r="5" fill="#a5f3fc" opacity="0.8" />
+							<circle cx="72" cy="72" r="6" fill="#f9a8d4" opacity="0.8"/>
+							<circle cx="100" cy="58" r="5" fill="#c4b5fd" opacity="0.8"/>
+							<circle cx="128" cy="72" r="6" fill="#f9a8d4" opacity="0.8"/>
+							<circle cx="85" cy="95" r="4" fill="#fde68a" opacity="0.9"/>
+							<circle cx="115" cy="92" r="5" fill="#a5f3fc" opacity="0.8"/>
 							<!-- sparkles -->
 							<text x="58" y="115" font-size="12" opacity="0.6">✨</text>
 							<text x="130" y="112" font-size="12" opacity="0.6">✨</text>
@@ -808,7 +275,7 @@
 					<button id="yesBtn">Of course! 🐣💕</button>
 				</div>
 
-				<div id="overlay" style="display: none">
+				<div id="overlay" style="display:none">
 					<div class="big-emoji">🥚</div>
 					<h1 id="overlayTitle">Easter Slash</h1>
 					<div class="legend">
@@ -818,10 +285,9 @@
 						<div class="legend-item">🍬 Candy <strong>+5</strong></div>
 						<div class="legend-item bad">🐥 Chick <strong>−10</strong></div>
 						<div class="legend-item life">🐇 Bunny <strong>−20 💔</strong></div>
+					<div class="legend-item" style="color:#16a34a;grid-column:span 2;text-align:center">🥒 Magic Pickle <strong>+100 ✨ one per game</strong></div>
 					</div>
-					<div class="sub" id="overlaySubtitle">
-						90 seconds · slice to score · unlock love letters 💌
-					</div>
+					<div class="sub" id="overlaySubtitle">90 seconds · slice to score · unlock love letters 💌</div>
 					<div class="best-row">🏆 Best: <span id="bestScore">0</span></div>
 					<button id="startBtn">Play! 🐣</button>
 				</div>
@@ -847,993 +313,548 @@
 		</div>
 
 		<script>
-			// ══════════════════════════════════════════════════════════
-			// EGG INTRO ANIMATION
-			// ══════════════════════════════════════════════════════════
-			const introStages = [
-				{ crack: ["crack1"], text: "Psst… Kanna…", sub: "", delay: 600 },
-				{
-					crack: ["crack2"],
-					text: "Something's hatching…",
-					sub: "",
-					delay: 700,
-				},
-				{
-					crack: ["crack3"],
-					text: "Something just for you 💕",
-					sub: "",
-					delay: 700,
-				},
-				{
-					crack: [],
-					text: "Will you be my…",
-					sub: "",
-					delay: 600,
-					openEgg: true,
-				},
-				{
-					crack: [],
-					text: "🐣 Will you be my Chick this Easter? 🐣",
-					sub: "…and every day after that too 💕",
-					delay: 0,
-					showBtn: true,
-				},
-			];
+		// ══════════════════════════════════════════════════════════
+		// EGG INTRO ANIMATION
+		// ══════════════════════════════════════════════════════════
+		const introStages = [
+			{ crack: ['crack1'], text: "Psst… Kanna…", sub: "", delay: 600 },
+			{ crack: ['crack2'], text: "Something's hatching…", sub: "", delay: 700 },
+			{ crack: ['crack3'], text: "Something just for you 💕", sub: "", delay: 700 },
+			{ crack: [], text: "Will you be my…", sub: "", delay: 600, openEgg: true },
+			{ crack: [], text: "🐣 Will you be my Chick this Easter? 🐣", sub: "…and every day after that too 💕", delay: 0, showBtn: true },
+		];
 
-			let introStage = -1;
-			let eggOpened = false;
+		let introStage = -1;
+		let eggOpened = false;
 
-			const eggIntroEl = document.getElementById("eggIntro");
-			const eggTop = document.getElementById("eggTop");
-			const chickPeek = document.getElementById("chickPeek");
-			const introTextEl = document.getElementById("introText");
-			const introSubEl = document.getElementById("introSubText");
-			const yesBtn = document.getElementById("yesBtn");
+		const eggIntroEl = document.getElementById('eggIntro');
+		const eggTop = document.getElementById('eggTop');
+		const chickPeek = document.getElementById('chickPeek');
+		const introTextEl = document.getElementById('introText');
+		const introSubEl = document.getElementById('introSubText');
+		const yesBtn = document.getElementById('yesBtn');
 
-			function runIntroStage() {
-				introStage++;
-				if (introStage >= introStages.length) return;
-				const s = introStages[introStage];
+		function runIntroStage() {
+			introStage++;
+			if (introStage >= introStages.length) return;
+			const s = introStages[introStage];
 
-				s.crack.forEach((id) => {
-					document.getElementById(id).style.opacity = "1";
-				});
-
-				if (s.text) introTextEl.textContent = s.text;
-
-				if (s.sub) {
-					introSubEl.textContent = s.sub;
-					introSubEl.style.opacity = "1";
-				}
-
-				if (s.openEgg) {
-					eggOpened = true;
-					// fly top half up and tilt
-					eggTop.style.transition =
-						"transform .65s cubic-bezier(.34,1.56,.64,1)";
-					eggTop.style.transform =
-						"translateY(-60px) rotate(-18deg) translateX(-10px)";
-					// reveal chick
-					setTimeout(() => {
-						chickPeek.style.opacity = "1";
-					}, 300);
-				}
-
-				if (s.showBtn) {
-					setTimeout(() => {
-						yesBtn.classList.add("visible");
-					}, 400);
-				}
-
-				// wiggle egg before opening
-				if (!eggOpened && introStage < 3) {
-					const eggSvg = document.getElementById("eggSvg");
-					eggSvg.style.animation = "none";
-					eggSvg.style.transform = "rotate(-4deg)";
-					setTimeout(() => {
-						eggSvg.style.transform = "rotate(4deg)";
-					}, 120);
-					setTimeout(() => {
-						eggSvg.style.transform = "rotate(-3deg)";
-					}, 240);
-					setTimeout(() => {
-						eggSvg.style.transform = "rotate(0deg)";
-					}, 360);
-				}
-
-				if (s.delay > 0) {
-					setTimeout(runIntroStage, s.delay);
-				}
-			}
-
-			// tap anywhere on egg intro to advance (before btn shows)
-			eggIntroEl.addEventListener("click", () => {
-				if (introStage === -1) {
-					runIntroStage();
-				}
+			s.crack.forEach(id => {
+				document.getElementById(id).style.opacity = '1';
 			});
 
-			// Start intro on load
-			setTimeout(() => {
-				introTextEl.textContent = "Tap anywhere to begin… 🥚";
-			}, 300);
+			if (s.text) introTextEl.textContent = s.text;
 
-			// Burst hearts on yes
-			yesBtn.addEventListener("click", (e) => {
-				// spawn hearts
-				const rect = eggIntroEl.getBoundingClientRect();
-				const cx = rect.width / 2;
-				const cy = rect.height / 2;
-				const emos = [
-					"💕",
-					"💖",
-					"💗",
-					"💓",
-					"💞",
-					"🌸",
-					"✨",
-					"🌷",
-					"🐣",
-					"💛",
-				];
-				for (let i = 0; i < 14; i++) {
-					const h = document.createElement("div");
-					h.className = "heart-burst";
-					const angle = (i / 14) * Math.PI * 2;
-					const dist = 80 + Math.random() * 60;
-					h.style.cssText = `left:${cx}px;top:${cy - 40}px;--tx:${Math.cos(angle) * dist}px;--ty:${Math.sin(angle) * dist}px;animation-delay:${Math.random() * 0.2}s`;
-					h.textContent = emos[i % emos.length];
-					eggIntroEl.appendChild(h);
-				}
+			if (s.sub) {
+				introSubEl.textContent = s.sub;
+				introSubEl.style.opacity = '1';
+			}
+
+			if (s.openEgg) {
+				eggOpened = true;
+				// fly top half up and tilt
+				eggTop.style.transition = 'transform .65s cubic-bezier(.34,1.56,.64,1)';
+				eggTop.style.transform = 'translateY(-60px) rotate(-18deg) translateX(-10px)';
+				// reveal chick
 				setTimeout(() => {
-					eggIntroEl.style.transition = "opacity .5s";
-					eggIntroEl.style.opacity = "0";
-					setTimeout(() => {
-						eggIntroEl.style.display = "none";
-						document.getElementById("overlay").style.display = "flex";
-					}, 500);
-				}, 700);
-			});
-
-			// ══════════════════════════════════════════════════════════
-			// MILESTONES & MESSAGES
-			// ══════════════════════════════════════════════════════════
-			const MILESTONES = [
-				{
-					score: 50,
-					emoji: "🌸",
-					title: "A Little Something…",
-					msg: "Every moment with you feels like finding a hidden Easter egg — unexpected, delightful, and better than anything I could have hoped for. I'm so glad you're mine.",
-				},
-				{
-					score: 100,
-					emoji: "🥰",
-					title: "You Make Me Smile",
-					msg: "Your laugh is my favorite sound in the entire world. The way your eyes light up when you're excited about something? That's the thing I live for. You make ordinary days feel like magic.",
-				},
-				{
-					score: 150,
-					emoji: "💐",
-					title: "Thank You For You",
-					msg: "Thank you for your patience, your warmth, and the gentle way you love me. You've made me a better person just by being beside me. I don't take a single second of that for granted.",
-				},
-				{
-					score: 200,
-					emoji: "💜",
-					title: "I Choose You",
-					msg: "I choose you — not just once, but every morning when I wake up and every night when I close my eyes. Choosing you is the easiest, most natural thing I have ever done.",
-				},
-				{
-					score: 250,
-					emoji: "🏡",
-					title: "My Home",
-					msg: "You are the home I never knew I was looking for. Wherever you are is where I want to be. Being with you feels like the safest, warmest, softest place in the entire world.",
-				},
-				{
-					score: 300,
-					emoji: "🌹",
-					title: "Effortlessly",
-					msg: "Loving you is the easiest thing I have ever done. It doesn't feel like work — it feels like breathing. Like something my heart already knew how to do long before I met you.",
-				},
-				{
-					score: 400,
-					emoji: "✨",
-					title: "You Are Enough",
-					msg: "On your hard days, on your quiet days, on the days you don't feel your best — I need you to know: you are more than enough. You are everything. And I am endlessly proud to call you mine.",
-				},
-				{
-					score: 500,
-					emoji: "💍",
-					title: "Always & Forever",
-					msg: "Forever isn't long enough when it's with you. You are my person — my best friend, my biggest adventure, my greatest love. I promise to keep choosing you, every day, for all the days we have.",
-				},
-				{
-					score: 600,
-					emoji: "🌙",
-					title: "Even On the Hard Days",
-					msg: "I never want you to wonder if I love you on the days we disagree or the nights we feel far apart. I do — deeply, completely, without condition. Hard days are just proof we're worth fighting for.",
-				},
-				{
-					score: 750,
-					emoji: "🫶",
-					title: "The Little Things",
-					msg: "It's the way you hum when you're thinking. The way you remember tiny details I mentioned once in passing. The way you exist — that's what I'm grateful for. Every quiet, ordinary, beautiful thing.",
-				},
-				{
-					score: 875,
-					emoji: "🌠",
-					title: "My Favorite Story",
-					msg: "If I could go back and choose any life, I'd choose this one. The one where I find you. Our story is my favorite one — and I can't wait to see all the chapters still ahead of us.",
-				},
-				{
-					score: 1000,
-					emoji: "👑",
-					title: "You Are Everything",
-					msg: "A thousand points for the girl who has my whole heart. You are my calm, my joy, my home, my greatest adventure. I love you more than any game could ever measure. Happy Easter, Kanna. 💕",
-				},
-			];
-
-			const unlocked = new Set();
-			let best = parseInt(localStorage.getItem("easter_best") || "0");
-			let savedUnlocked = JSON.parse(
-				localStorage.getItem("easter_unlocked") || "[]",
-			);
-			let popupQueue = [],
-				popupShowing = false;
-
-			function buildCards() {
-				const el = document.getElementById("msgCards");
-				el.innerHTML = "";
-				MILESTONES.forEach((m, i) => {
-					const c = document.createElement("div");
-					c.id = `card-${i}`;
-					if (savedUnlocked.includes(i)) {
-						unlocked.add(i);
-						c.className = "msg-card unlocked";
-						c.innerHTML = `<div class="card-score"><span class="card-dot"></span>${m.score} pts</div><div class="card-msg">${m.emoji} ${m.msg}</div>`;
-					} else {
-						c.className = "msg-card locked";
-						c.innerHTML = `<div class="card-score"><span class="card-dot"></span>${m.score} pts</div><div class="card-msg"><span style="font-size:15px">🔒</span> <span class="card-lock">Play to unlock…</span></div>`;
-					}
-					el.appendChild(c);
-				});
+					chickPeek.style.opacity = '1';
+				}, 300);
 			}
 
-			function unlockCard(i) {
-				if (unlocked.has(i)) return;
-				unlocked.add(i);
-				const saved = JSON.parse(
-					localStorage.getItem("easter_unlocked") || "[]",
-				);
-				if (!saved.includes(i)) {
-					saved.push(i);
-					localStorage.setItem("easter_unlocked", JSON.stringify(saved));
-				}
-				const m = MILESTONES[i];
-				const card = document.getElementById(`card-${i}`);
-				card.className = "msg-card newly-unlocked";
-				card.querySelector(".card-msg").innerHTML = `${m.emoji} ${m.msg}`;
-				setTimeout(
-					() => card.scrollIntoView({ behavior: "smooth", block: "nearest" }),
-					200,
-				);
-				popupQueue.push(i);
-				if (!popupShowing) showNextPopup();
+			if (s.showBtn) {
+				setTimeout(() => {
+					yesBtn.classList.add('visible');
+				}, 400);
 			}
 
-			function showNextPopup() {
-				if (!popupQueue.length) {
-					popupShowing = false;
-					return;
-				}
-				popupShowing = true;
-				const idx = popupQueue.shift();
-				const m = MILESTONES[idx];
-				document.getElementById("popupEmoji").textContent = m.emoji;
-				document.getElementById("popupMilestone").textContent =
-					`${m.score} Points Unlocked 🎉`;
-				document.getElementById("popupTitle").textContent = m.title;
-				document.getElementById("popupMsg").textContent = m.msg;
-				const hEl = document.getElementById("popupHearts");
-				hEl.innerHTML = "";
-				const emos = ["💕", "💖", "💗", "💓", "💞", "🌸", "✨", "🌷"];
-				for (let j = 0; j < 10; j++) {
-					const h = document.createElement("div");
-					h.className = "floating-heart";
-					h.textContent = emos[Math.floor(Math.random() * emos.length)];
-					h.style.cssText = `left:${Math.random() * 85 + 5}%;bottom:10px;animation-delay:${Math.random() * 1.5}s;font-size:${14 + Math.random() * 14}px`;
-					hEl.appendChild(h);
-				}
-				document.getElementById("lovePopup").classList.add("show");
+			// wiggle egg before opening
+			if (!eggOpened && introStage < 3) {
+				const eggSvg = document.getElementById('eggSvg');
+				eggSvg.style.animation = 'none';
+				eggSvg.style.transform = 'rotate(-4deg)';
+				setTimeout(() => { eggSvg.style.transform = 'rotate(4deg)'; }, 120);
+				setTimeout(() => { eggSvg.style.transform = 'rotate(-3deg)'; }, 240);
+				setTimeout(() => { eggSvg.style.transform = 'rotate(0deg)'; }, 360);
 			}
 
-			function dismissPopup() {
-				document.getElementById("lovePopup").classList.remove("show");
-				setTimeout(showNextPopup, 400);
+			if (s.delay > 0) {
+				setTimeout(runIntroStage, s.delay);
 			}
-			document
-				.getElementById("popupClose")
-				.addEventListener("click", dismissPopup);
-			document
-				.getElementById("lovePopupBg")
-				.addEventListener("click", dismissPopup);
+		}
 
-			function updateProgress(s) {
-				const next = MILESTONES.find((m) => m.score > s);
-				const prev = [...MILESTONES].reverse().find((m) => m.score <= s);
-				const fill = document.getElementById("progressFill");
-				if (!next) {
-					fill.style.width = "100%";
-					document.getElementById("progressLabel").textContent = "🌟 All!";
-					document.getElementById("nextMilestone").textContent = "500 ✓";
-					return;
-				}
-				const from = prev ? prev.score : 0;
-				fill.style.width = `${Math.min(100, ((s - from) / (next.score - from)) * 100)}%`;
-				document.getElementById("progressLabel").textContent = "Next 💌";
-				document.getElementById("nextMilestone").textContent =
-					`at ${next.score}`;
+		// tap anywhere on egg intro to advance (before btn shows)
+		eggIntroEl.addEventListener('click', () => {
+			if (introStage === -1) {
+				runIntroStage();
 			}
+		});
 
-			function checkMilestones(s) {
-				MILESTONES.forEach((m, i) => {
-					if (s >= m.score) unlockCard(i);
-				});
+		// Start intro on load
+		setTimeout(() => {
+			introTextEl.textContent = "Tap anywhere to begin… 🥚";
+		}, 300);
+
+		// Burst hearts on yes
+		yesBtn.addEventListener('click', (e) => {
+			// spawn hearts
+			const rect = eggIntroEl.getBoundingClientRect();
+			const cx = rect.width / 2;
+			const cy = rect.height / 2;
+			const emos = ['💕','💖','💗','💓','💞','🌸','✨','🌷','🐣','💛'];
+			for (let i = 0; i < 14; i++) {
+				const h = document.createElement('div');
+				h.className = 'heart-burst';
+				const angle = (i / 14) * Math.PI * 2;
+				const dist = 80 + Math.random() * 60;
+				h.style.cssText = `left:${cx}px;top:${cy-40}px;--tx:${Math.cos(angle)*dist}px;--ty:${Math.sin(angle)*dist}px;animation-delay:${Math.random()*0.2}s`;
+				h.textContent = emos[i % emos.length];
+				eggIntroEl.appendChild(h);
 			}
+			setTimeout(() => {
+				eggIntroEl.style.transition = 'opacity .5s';
+				eggIntroEl.style.opacity = '0';
+				setTimeout(() => {
+					eggIntroEl.style.display = 'none';
+					document.getElementById('overlay').style.display = 'flex';
+				}, 500);
+			}, 700);
+		});
 
-			// ══════════════════════════════════════════════════════════
-			// GAME ITEMS
-			// ══════════════════════════════════════════════════════════
-			const DEFS = [
-				{
-					emoji: "🥚",
-					label: "egg",
-					pts: 10,
-					color: "#fce7f3",
-					ol: "#f472b6",
-					type: "good",
-				},
-				{
-					emoji: "🥚",
-					label: "egg",
-					pts: 10,
-					color: "#fce7f3",
-					ol: "#f472b6",
-					type: "good",
-				},
-				{
-					emoji: "🥚",
-					label: "egg",
-					pts: 10,
-					color: "#e0f2fe",
-					ol: "#38bdf8",
-					type: "good",
-				},
-				{
-					emoji: "🥚",
-					label: "egg",
-					pts: 10,
-					color: "#d1fae5",
-					ol: "#34d399",
-					type: "good",
-				},
-				{
-					emoji: "🩷",
-					label: "heart",
-					pts: 20,
-					color: "#fff0fa",
-					ol: "#ec4899",
-					type: "good",
-				},
-				{
-					emoji: "💜",
-					label: "heart",
-					pts: 20,
-					color: "#ede9fe",
-					ol: "#8b5cf6",
-					type: "good",
-				},
-				{
-					emoji: "💛",
-					label: "heart",
-					pts: 20,
-					color: "#fef9c3",
-					ol: "#f59e0b",
-					type: "good",
-				},
-				{
-					emoji: "🌸",
-					label: "flower",
-					pts: 15,
-					color: "#fce7f3",
-					ol: "#f9a8d4",
-					type: "good",
-				},
-				{
-					emoji: "🌷",
-					label: "flower",
-					pts: 15,
-					color: "#ffe4e6",
-					ol: "#fb7185",
-					type: "good",
-				},
-				{
-					emoji: "🍬",
-					label: "candy",
-					pts: 5,
-					color: "#fef3c7",
-					ol: "#fbbf24",
-					type: "good",
-				},
-				{
-					emoji: "🍭",
-					label: "candy",
-					pts: 5,
-					color: "#f0fdf4",
-					ol: "#4ade80",
-					type: "good",
-				},
-				{
-					emoji: "🐥",
-					label: "chick",
-					pts: -10,
-					color: "#fef9c3",
-					ol: "#fbbf24",
-					type: "penalty",
-				},
-				{
-					emoji: "🐥",
-					label: "chick",
-					pts: -10,
-					color: "#fef9c3",
-					ol: "#fbbf24",
-					type: "penalty",
-				},
-				{
-					emoji: "🐇",
-					label: "bunny",
-					pts: -20,
-					color: "#ffe4e6",
-					ol: "#fb7185",
-					type: "bomb",
-				},
-			];
+		// ══════════════════════════════════════════════════════════
+		// MILESTONES & MESSAGES
+		// ══════════════════════════════════════════════════════════
+		const MILESTONES = [
+			{ score: 50, emoji: "🌸", title: "A Little Something…", msg: "Every moment with you feels like finding a hidden Easter egg unexpected, delightful, and better than anything I could have hoped for. I'm so glad you're mine." },
+			{ score: 100, emoji: "🥰", title: "You Make Me Smile", msg: "Your laugh is my favorite sound in the entire world. The way your eyes light up when you're excited about something? That's the thing I live for. You make ordinary days feel like magic." },
+			{ score: 150, emoji: "💐", title: "Thank You For You", msg: "Thank you for your patience, your warmth, and the gentle way you love me. You've made me a better person just by being beside me. I don't take a single second of that for granted." },
+			{ score: 200, emoji: "💜", title: "I Choose You", msg: "I choose you not just once, but every morning when I wake up and every night when I close my eyes. Choosing you is the easiest, most natural thing I have ever done." },
+			{ score: 250, emoji: "🏡", title: "My Home", msg: "You are the home I never knew I was looking for. Wherever you are is where I want to be. Being with you feels like the safest, warmest, softest place in the entire world." },
+			{ score: 300, emoji: "🌹", title: "Effortlessly", msg: "Loving you is the easiest thing I have ever done. It doesn't feel like work it feels like breathing. Like something my heart already knew how to do long before I met you." },
+			{ score: 400, emoji: "✨", title: "You Are Enough", msg: "On your hard days, on your quiet days, on the days you don't feel your best I need you to know: you are more than enough. You are everything. And I am endlessly proud to call you mine." },
+			{ score: 500, emoji: "💍", title: "Always & Forever", msg: "Forever isn't long enough when it's with you. You are my person my best friend, my biggest adventure, my greatest love. I promise to keep choosing you, every day, for all the days we have." },
+			{ score: 600, emoji: "🌙", title: "Even On the Hard Days", msg: "I never want you to wonder if I love you on the days we disagree or the nights we feel far apart. I do deeply, completely, without condition. Hard days are just proof we're worth fighting for." },
+			{ score: 750, emoji: "🫶", title: "The Little Things", msg: "It's the way you hum when you're thinking. The way you remember tiny details I mentioned once in passing. The way you exist that's what I'm grateful for. Every quiet, ordinary, beautiful thing." },
+			{ score: 875, emoji: "🌠", title: "My Favorite Story", msg: "If I could go back and choose any life, I'd choose this one. The one where I find you. Our story is my favorite one and I can't wait to see all the chapters still ahead of us." },
+			{ score: 1000, emoji: "👑", title: "You Are Everything", msg: "A thousand points for the girl who has my whole heart. You are my calm, my joy, my home, my greatest adventure. I love you more than any game could ever measure. Happy Easter, Kanna. 💕" },
+		];
 
-			const ROUND_SECS = 90;
-			const MAX_LIVES = 3;
+		const unlocked = new Set();
+		let best = parseInt(localStorage.getItem('easter_best') || '0');
+		let savedUnlocked = JSON.parse(localStorage.getItem('easter_unlocked') || '[]');
+		let popupQueue = [], popupShowing = false;
 
-			const canvas = document.getElementById("canvas");
-			const ctx = canvas.getContext("2d");
-			const W = canvas.width,
-				H = canvas.height;
-
-			let score, lives, gameRunning, combo, comboTimer;
-			let items, particles, trail, floats;
-			let lastPos, raf, spawnTimer, spawnInterval, difficulty, bgGrad;
-			let timeLeft, timerInterval;
-
-			const rand = (a, b) => Math.random() * (b - a) + a;
-			const rInt = (a, b) => Math.floor(rand(a, b + 1));
-			const lerp = (a, b, t) => a + (b - a) * t;
-
-			function mkBg() {
-				bgGrad = ctx.createLinearGradient(0, 0, W, H);
-				bgGrad.addColorStop(0, "#fff0f8");
-				bgGrad.addColorStop(0.5, "#fce7f3");
-				bgGrad.addColorStop(1, "#ede9fe");
-			}
-
-			class Particle {
-				constructor(x, y, color) {
-					this.x = x;
-					this.y = y;
-					this.vx = rand(-5, 5);
-					this.vy = rand(-7, -1);
-					this.a = 1;
-					this.sz = rand(5, 11);
-					this.color = color;
-					this.g = 0.25;
-					this.rot = rand(0, Math.PI * 2);
-					this.rs = rand(-0.2, 0.2);
-					this.star = Math.random() > 0.5;
-				}
-				upd() {
-					this.vy += this.g;
-					this.x += this.vx;
-					this.y += this.vy;
-					this.a -= 0.024;
-					this.rot += this.rs;
-				}
-				draw() {
-					ctx.save();
-					ctx.globalAlpha = Math.max(0, this.a);
-					ctx.translate(this.x, this.y);
-					ctx.rotate(this.rot);
-					ctx.fillStyle = this.color;
-					if (!this.star) {
-						ctx.beginPath();
-						ctx.arc(0, 0, this.sz / 2, 0, Math.PI * 2);
-						ctx.fill();
-					} else {
-						ctx.beginPath();
-						for (let i = 0; i < 5; i++) {
-							const a = (i * Math.PI * 2) / 5 - Math.PI / 2,
-								r = i % 2 ? this.sz / 5 : this.sz / 2;
-							ctx[i ? "lineTo" : "moveTo"](Math.cos(a) * r, Math.sin(a) * r);
-						}
-						ctx.closePath();
-						ctx.fill();
-					}
-					ctx.restore();
-				}
-			}
-
-			class FloatText {
-				constructor(x, y, txt, col) {
-					this.x = x;
-					this.y = y;
-					this.txt = txt;
-					this.col = col;
-					this.a = 1;
-					this.vy = -2.2;
-				}
-				upd() {
-					this.y += this.vy;
-					this.a -= 0.024;
-					this.vy *= 0.97;
-				}
-				draw() {
-					ctx.save();
-					ctx.globalAlpha = Math.max(0, this.a);
-					ctx.font = 'bold 20px "Fredoka One",cursive';
-					ctx.fillStyle = this.col;
-					ctx.textAlign = "center";
-					ctx.shadowColor = "rgba(255,255,255,0.9)";
-					ctx.shadowBlur = 6;
-					ctx.fillText(this.txt, this.x, this.y);
-					ctx.restore();
-				}
-			}
-
-			class Item {
-				constructor() {
-					let pool = DEFS.filter(
-						(d) => d.type !== "bomb" && d.type !== "penalty",
-					);
-					let penaltyPool = DEFS.filter((d) => d.type === "penalty");
-					let bombPool = DEFS.filter((d) => d.type === "bomb");
-					const r = Math.random();
-					let d;
-					if (r < 0.12) d = bombPool[rInt(0, bombPool.length - 1)];
-					else if (r < 0.28) d = penaltyPool[rInt(0, penaltyPool.length - 1)];
-					else d = pool[rInt(0, pool.length - 1)];
-					Object.assign(this, d);
-					this.x = rand(60, W - 60);
-					this.y = H + 60;
-					const sp = rand(10, 13 + difficulty * 0.4),
-						ang = rand(-Math.PI * 0.84, -Math.PI * 0.16);
-					this.vx = Math.cos(ang) * sp * 0.22;
-					this.vy = -sp;
-					this.grav = 0.22;
-					this.rot = rand(-0.3, 0.3);
-					this.rs = rand(-0.04, 0.04);
-					this.r = 51;
-					this.sliced = false;
-					this.scale = 0.4;
-					this.wob = 0;
-					this.ha = [1, 1];
-					this.ho = [
-						{ x: 0, y: 0 },
-						{ x: 0, y: 0 },
-					];
-					this.sa = 0;
-					this.hv = [
-						{ x: rand(-2.5, -0.5), y: rand(-2, 0) },
-						{ x: rand(0.5, 2.5), y: rand(-2, 0) },
-					];
-				}
-				upd() {
-					if (this.sliced) {
-						for (let i = 0; i < 2; i++) {
-							this.ho[i].x += this.hv[i].x;
-							this.ho[i].y += this.hv[i].y;
-							this.hv[i].y += this.grav;
-							this.ha[i] -= 0.028;
-						}
-						return;
-					}
-					this.vy += this.grav;
-					this.x += this.vx;
-					this.y += this.vy;
-					this.rot += this.rs;
-					this.scale = lerp(this.scale, 1, 0.15);
-					this.wob += 0.15;
-				}
-				alive() {
-					return this.sliced ? this.ha[0] > 0 : this.y < H + 90;
-				}
-				hit(x, y) {
-					return !this.sliced && Math.hypot(this.x - x, this.y - y) < this.r;
-				}
-				slice(a) {
-					this.sliced = true;
-					this.sa = a;
-				}
-				draw() {
-					if (this.sliced) {
-						this.drawSl();
-						return;
-					}
-					ctx.save();
-					ctx.translate(this.x, this.y);
-					ctx.rotate(this.rot);
-					ctx.scale(this.scale + Math.sin(this.wob) * 0.018, this.scale);
-					ctx.shadowColor = "rgba(180,60,100,.13)";
-					ctx.shadowBlur = 14;
-					ctx.shadowOffsetY = 6;
-					const g = ctx.createRadialGradient(0, -4, 3, 0, 0, this.r);
-					g.addColorStop(0, this.color);
-					g.addColorStop(1, this.ol + "55");
-					ctx.beginPath();
-					ctx.arc(0, 0, this.r, 0, Math.PI * 2);
-					ctx.fillStyle = g;
-					ctx.fill();
-					ctx.lineWidth = 2.5;
-					ctx.strokeStyle = this.ol;
-					ctx.stroke();
-					ctx.shadowBlur = 0;
-					ctx.font = `${this.r}px serif`;
-					ctx.textAlign = "center";
-					ctx.textBaseline = "middle";
-					ctx.fillText(this.emoji, 0, 2);
-					ctx.restore();
-				}
-				drawSl() {
-					for (let i = 0; i < 2; i++) {
-						ctx.save();
-						ctx.globalAlpha = Math.max(0, this.ha[i]);
-						ctx.translate(this.x + this.ho[i].x, this.y + this.ho[i].y);
-						ctx.rotate(this.rot + (i ? 0.4 : -0.4));
-						ctx.beginPath();
-						if (!i) {
-							ctx.moveTo(0, 0);
-							ctx.arc(0, 0, this.r + 2, this.sa, this.sa + Math.PI);
-						} else {
-							ctx.moveTo(0, 0);
-							ctx.arc(
-								0,
-								0,
-								this.r + 2,
-								this.sa + Math.PI,
-								this.sa + Math.PI * 2,
-							);
-						}
-						ctx.closePath();
-						ctx.clip();
-						const g = ctx.createRadialGradient(0, -4, 3, 0, 0, this.r);
-						g.addColorStop(0, this.color);
-						g.addColorStop(1, this.ol + "55");
-						ctx.beginPath();
-						ctx.arc(0, 0, this.r, 0, Math.PI * 2);
-						ctx.fillStyle = g;
-						ctx.fill();
-						ctx.font = `${this.r}px serif`;
-						ctx.textAlign = "center";
-						ctx.textBaseline = "middle";
-						ctx.fillText(this.emoji, 0, 2);
-						ctx.restore();
-					}
-				}
-			}
-
-			function drawTrail() {
-				if (trail.length < 2) return;
-				for (let i = 1; i < trail.length; i++) {
-					const t = i / trail.length,
-						p = trail[i - 1],
-						q = trail[i];
-					ctx.beginPath();
-					ctx.moveTo(p.x, p.y);
-					ctx.lineTo(q.x, q.y);
-					ctx.strokeStyle = `hsla(320,90%,68%,${t * 0.82})`;
-					ctx.lineWidth = t * 13;
-					ctx.lineCap = "round";
-					ctx.shadowColor = "rgba(244,114,182,.5)";
-					ctx.shadowBlur = 8;
-					ctx.stroke();
-					ctx.shadowBlur = 0;
-				}
-			}
-
-			const DECO = [
-				{ e: "🌸", x: 28, y: 75, s: 0.55, a: 0.16 },
-				{ e: "🌷", x: W - 38, y: 155, s: 0.65, a: 0.14 },
-				{ e: "🐣", x: 46, y: H - 80, s: 0.6, a: 0.14 },
-				{ e: "🌿", x: W - 42, y: H - 65, s: 0.65, a: 0.13 },
-				{ e: "✨", x: W / 2, y: 46, s: 0.5, a: 0.11 },
-			];
-
-			function drawBg() {
-				ctx.fillStyle = bgGrad;
-				ctx.fillRect(0, 0, W, H);
-				for (const c of DECO) {
-					ctx.save();
-					ctx.globalAlpha = c.a;
-					ctx.font = `${c.s * 58}px serif`;
-					ctx.textAlign = "center";
-					ctx.textBaseline = "middle";
-					ctx.fillText(c.e, c.x, c.y);
-					ctx.restore();
-				}
-				const g = ctx.createLinearGradient(0, H - 30, 0, H);
-				g.addColorStop(0, "rgba(134,239,172,.28)");
-				g.addColorStop(1, "rgba(74,222,128,.38)");
-				ctx.fillStyle = g;
-				ctx.beginPath();
-				ctx.moveTo(0, H - 16);
-				for (let x = 0; x <= W; x += 20)
-					ctx.quadraticCurveTo(x + 10, H - 26, x + 20, H - 16);
-				ctx.lineTo(W, H);
-				ctx.lineTo(0, H);
-				ctx.closePath();
-				ctx.fill();
-			}
-
-			function checkSlice(x1, y1, x2, y2) {
-				for (const it of items)
-					if (!it.sliced && (it.hit(x1, y1) || it.hit(x2, y2)))
-						doSlice(it, x1, y1, x2, y2);
-			}
-
-			function doSlice(it, x1, y1, x2, y2) {
-				it.slice(Math.atan2(y2 - y1, x2 - x1));
-				if (it.type === "bomb") {
-					lives = Math.max(0, lives - 1);
-					score = Math.max(0, score + it.pts);
-					document.getElementById("scoreDisplay").textContent = score;
-					updateLivesUI();
-					updateProgress(score);
-					checkMilestones(score);
-					floats.push(new FloatText(it.x, it.y - 24, "💔 −20", "#ef4444"));
-					combo = 0;
-					showCombo();
-					for (let i = 0; i < 14; i++)
-						particles.push(
-							new Particle(
-								it.x,
-								it.y,
-								["#fbbf24", "#ffe4e6", "#fff"][rInt(0, 2)],
-							),
-						);
-					flashScreen("rgba(239,68,68,0.18)");
-					if (lives <= 0) endGame("out of lives");
-				} else if (it.type === "penalty") {
-					score = Math.max(0, score + it.pts);
-					document.getElementById("scoreDisplay").textContent = score;
-					updateProgress(score);
-					checkMilestones(score);
-					combo = 0;
-					showCombo();
-					floats.push(new FloatText(it.x, it.y - 24, "🐥 −10", "#f97316"));
-					for (let i = 0; i < 10; i++)
-						particles.push(
-							new Particle(
-								it.x,
-								it.y,
-								["#fef9c3", "#fbbf24", "#fff"][rInt(0, 2)],
-							),
-						);
+		function buildCards() {
+			const el = document.getElementById("msgCards");
+			el.innerHTML = "";
+			MILESTONES.forEach((m, i) => {
+				const c = document.createElement("div");
+				c.id = `card-${i}`;
+				if (savedUnlocked.includes(i)) {
+					unlocked.add(i);
+					c.className = "msg-card unlocked";
+					c.innerHTML = `<div class="card-score"><span class="card-dot"></span>${m.score} pts</div><div class="card-msg">${m.emoji} ${m.msg}</div>`;
 				} else {
-					combo++;
-					const pts = it.pts * (combo >= 3 ? combo : 1);
-					score += pts;
-					document.getElementById("scoreDisplay").textContent = score;
-					updateProgress(score);
-					checkMilestones(score);
-					showCombo();
-					const lb =
-						combo >= 5
-							? ["🔥 BLAZING!", "🌟 AMAZING!", "💫 STELLAR!"]
-							: combo >= 3
-								? ["✨ COMBO!", "🎉 SWEET!", "💥 WOW!"]
-								: null;
-					floats.push(
-						new FloatText(
-							it.x,
-							it.y - 28,
-							lb ? lb[rInt(0, lb.length - 1)] : `+${pts}`,
-							lb ? "#f59e0b" : "#c4407a",
-						),
-					);
-					const cols = [it.ol, it.color, "#fff", "#f9a8d4", "#c4b5fd"];
-					for (let i = 0; i < 18; i++)
-						particles.push(
-							new Particle(it.x, it.y, cols[rInt(0, cols.length - 1)]),
-						);
+					c.className = "msg-card locked";
+					c.innerHTML = `<div class="card-score"><span class="card-dot"></span>${m.score} pts</div><div class="card-msg"><span style="font-size:15px">🔒</span> <span class="card-lock">Play to unlock…</span></div>`;
 				}
-			}
+				el.appendChild(c);
+			});
+		}
 
-			let flashAlpha = 0,
-				flashColor = "rgba(239,68,68,0.2)";
-			function flashScreen(color) {
-				flashAlpha = 1;
-				flashColor = color;
+		function unlockCard(i) {
+			if (unlocked.has(i)) return;
+			unlocked.add(i);
+			const saved = JSON.parse(localStorage.getItem('easter_unlocked') || '[]');
+			if (!saved.includes(i)) { saved.push(i); localStorage.setItem('easter_unlocked', JSON.stringify(saved)); }
+			const m = MILESTONES[i];
+			const card = document.getElementById(`card-${i}`);
+			card.className = "msg-card newly-unlocked";
+			card.querySelector(".card-msg").innerHTML = `${m.emoji} ${m.msg}`;
+			setTimeout(() => card.scrollIntoView({ behavior: "smooth", block: "nearest" }), 200);
+			popupQueue.push(i);
+			if (!popupShowing) showNextPopup();
+		}
+
+		function showNextPopup() {
+			if (!popupQueue.length) { popupShowing = false; return; }
+			popupShowing = true;
+			const idx = popupQueue.shift();
+			const m = MILESTONES[idx];
+			document.getElementById("popupEmoji").textContent = m.emoji;
+			document.getElementById("popupMilestone").textContent = `${m.score} Points Unlocked 🎉`;
+			document.getElementById("popupTitle").textContent = m.title;
+			document.getElementById("popupMsg").textContent = m.msg;
+			const hEl = document.getElementById("popupHearts");
+			hEl.innerHTML = "";
+			const emos = ["💕","💖","💗","💓","💞","🌸","✨","🌷"];
+			for (let j = 0; j < 10; j++) {
+				const h = document.createElement("div");
+				h.className = "floating-heart";
+				h.textContent = emos[Math.floor(Math.random() * emos.length)];
+				h.style.cssText = `left:${Math.random()*85+5}%;bottom:10px;animation-delay:${Math.random()*1.5}s;font-size:${14+Math.random()*14}px`;
+				hEl.appendChild(h);
 			}
-			function drawFlash() {
-				if (flashAlpha <= 0) return;
-				ctx.save();
-				ctx.globalAlpha = flashAlpha;
-				ctx.fillStyle = flashColor;
-				ctx.fillRect(0, 0, W, H);
+			document.getElementById("lovePopup").classList.add("show");
+		}
+
+		function dismissPopup() {
+			document.getElementById("lovePopup").classList.remove("show");
+			setTimeout(showNextPopup, 400);
+		}
+		document.getElementById("popupClose").addEventListener("click", dismissPopup);
+		document.getElementById("lovePopupBg").addEventListener("click", dismissPopup);
+
+		function updateProgress(s) {
+			const next = MILESTONES.find(m => m.score > s);
+			const prev = [...MILESTONES].reverse().find(m => m.score <= s);
+			const fill = document.getElementById("progressFill");
+			if (!next) {
+				fill.style.width = "100%";
+				document.getElementById("progressLabel").textContent = "🌟 All!";
+				document.getElementById("nextMilestone").textContent = "1000 ✓";
+				return;
+			}
+			const from = prev ? prev.score : 0;
+			fill.style.width = `${Math.min(100, (s - from) / (next.score - from) * 100)}%`;
+			document.getElementById("progressLabel").textContent = "Next 💌";
+			document.getElementById("nextMilestone").textContent = `at ${next.score}`;
+		}
+
+		function checkMilestones(s) { MILESTONES.forEach((m, i) => { if (s >= m.score) unlockCard(i); }); }
+
+		// ══════════════════════════════════════════════════════════
+		// GAME ITEMS
+		// ══════════════════════════════════════════════════════════
+		const DEFS = [
+			{ emoji:"🥚", label:"egg", pts:10, color:"#fce7f3", ol:"#f472b6", type:"good" },
+			{ emoji:"🥚", label:"egg", pts:10, color:"#fce7f3", ol:"#f472b6", type:"good" },
+			{ emoji:"🥚", label:"egg", pts:10, color:"#e0f2fe", ol:"#38bdf8", type:"good" },
+			{ emoji:"🥚", label:"egg", pts:10, color:"#d1fae5", ol:"#34d399", type:"good" },
+			{ emoji:"🩷", label:"heart", pts:20, color:"#fff0fa", ol:"#ec4899", type:"good" },
+			{ emoji:"💜", label:"heart", pts:20, color:"#ede9fe", ol:"#8b5cf6", type:"good" },
+			{ emoji:"💛", label:"heart", pts:20, color:"#fef9c3", ol:"#f59e0b", type:"good" },
+			{ emoji:"🌸", label:"flower", pts:15, color:"#fce7f3", ol:"#f9a8d4", type:"good" },
+			{ emoji:"🌷", label:"flower", pts:15, color:"#ffe4e6", ol:"#fb7185", type:"good" },
+			{ emoji:"🍬", label:"candy", pts:5, color:"#fef3c7", ol:"#fbbf24", type:"good" },
+			{ emoji:"🍭", label:"candy", pts:5, color:"#f0fdf4", ol:"#4ade80", type:"good" },
+			{ emoji:"🐥", label:"chick", pts:-10, color:"#fef9c3", ol:"#fbbf24", type:"penalty" },
+			{ emoji:"🐥", label:"chick", pts:-10, color:"#fef9c3", ol:"#fbbf24", type:"penalty" },
+			{ emoji:"🐇", label:"bunny", pts:-20, color:"#ffe4e6", ol:"#fb7185", type:"bomb" },
+			{ emoji:"🥒", label:"pickle", pts:100, color:"#bbf7d0", ol:"#16a34a", type:"pickle" },
+		];
+
+		const ROUND_SECS = 75;
+		const MAX_LIVES = 3;
+
+		const canvas = document.getElementById("canvas");
+		const ctx = canvas.getContext("2d");
+		const W = canvas.width, H = canvas.height;
+
+		let score, lives, gameRunning, combo, comboTimer;
+		let items, particles, trail, floats;
+		let lastPos, raf, spawnTimer, spawnInterval, difficulty, bgGrad;
+		let pickleSpawned, pickleSpawnFrame, frameCount;
+		let timeLeft, timerInterval;
+
+		const rand = (a,b) => Math.random()*(b-a)+a;
+		const rInt = (a,b) => Math.floor(rand(a,b+1));
+		const lerp = (a,b,t) => a+(b-a)*t;
+
+		function mkBg() {
+			bgGrad = ctx.createLinearGradient(0,0,W,H);
+			bgGrad.addColorStop(0,"#fff0f8");
+			bgGrad.addColorStop(0.5,"#fce7f3");
+			bgGrad.addColorStop(1,"#ede9fe");
+		}
+
+		class Particle {
+			constructor(x,y,color) {
+				this.x=x; this.y=y;
+				this.vx=rand(-5,5); this.vy=rand(-7,-1);
+				this.a=1; this.sz=rand(5,11); this.color=color;
+				this.g=0.25; this.rot=rand(0,Math.PI*2); this.rs=rand(-0.2,0.2);
+				this.star=Math.random()>0.5;
+			}
+			upd() { this.vy+=this.g; this.x+=this.vx; this.y+=this.vy; this.a-=0.024; this.rot+=this.rs; }
+			draw() {
+				ctx.save(); ctx.globalAlpha=Math.max(0,this.a);
+				ctx.translate(this.x,this.y); ctx.rotate(this.rot);
+				ctx.fillStyle=this.color;
+				if (!this.star) { ctx.beginPath(); ctx.arc(0,0,this.sz/2,0,Math.PI*2); ctx.fill(); }
+				else {
+					ctx.beginPath();
+					for (let i=0;i<5;i++) { const a=(i*Math.PI*2)/5-Math.PI/2,r=i%2?this.sz/5:this.sz/2; ctx[i?"lineTo":"moveTo"](Math.cos(a)*r,Math.sin(a)*r); }
+					ctx.closePath(); ctx.fill();
+				}
 				ctx.restore();
-				flashAlpha = Math.max(0, flashAlpha - 0.07);
 			}
+		}
 
-			function showCombo() {
-				const el = document.getElementById("comboDisplay");
-				if (combo >= 3) {
-					el.textContent = `🔥 ${combo}x COMBO!`;
-					el.style.opacity = "1";
-				} else el.style.opacity = "0";
-				clearTimeout(comboTimer);
-				comboTimer = setTimeout(() => {
-					combo = 0;
-					el.style.opacity = "0";
-				}, 1200);
+		class FloatText {
+			constructor(x,y,txt,col) { this.x=x; this.y=y; this.txt=txt; this.col=col; this.a=1; this.vy=-2.2; }
+			upd() { this.y+=this.vy; this.a-=0.024; this.vy*=0.97; }
+			draw() {
+				ctx.save(); ctx.globalAlpha=Math.max(0,this.a);
+				ctx.font='bold 20px "Fredoka One",cursive'; ctx.fillStyle=this.col;
+				ctx.textAlign="center"; ctx.shadowColor="rgba(255,255,255,0.9)"; ctx.shadowBlur=6;
+				ctx.fillText(this.txt,this.x,this.y); ctx.restore();
 			}
+		}
 
-			function updateLivesUI() {
-				const hearts = Math.max(0, lives);
-				document.getElementById("lives-box").textContent =
-					"❤️".repeat(hearts) || "💔";
+		class Item {
+			constructor(forceDef) {
+				let pool=DEFS.filter(d=>d.type!=="bomb"&&d.type!=="penalty"&&d.type!=="pickle");
+				let penaltyPool=DEFS.filter(d=>d.type==="penalty");
+				let bombPool=DEFS.filter(d=>d.type==="bomb");
+				const r=Math.random();
+				let d;
+				if (forceDef) d=forceDef;
+				else if (r<0.12) d=bombPool[rInt(0,bombPool.length-1)];
+				else if (r<0.28) d=penaltyPool[rInt(0,penaltyPool.length-1)];
+				else d=pool[rInt(0,pool.length-1)];
+				Object.assign(this,d);
+				this.x=rand(60,W-60); this.y=H+60;
+				const isPickle=d.type==="pickle";
+				const spBase=isPickle?rand(13,16):rand(10,13+difficulty*0.4);
+				const ang=rand(-Math.PI*0.84,-Math.PI*0.16);
+				this.vx=Math.cos(ang)*spBase*0.22; this.vy=-spBase;
+				this.grav=0.22; this.rot=rand(-0.3,0.3); this.rs=rand(-0.04,0.04);
+				this.r=isPickle?77:51; this.hitR=isPickle?30:this.r;
+				this.sliced=false; this.scale=0.4; this.wob=0;
+				this.ha=[1,1]; this.ho=[{x:0,y:0},{x:0,y:0}]; this.sa=0;
+				this.hv=[{x:rand(-2.5,-0.5),y:rand(-2,0)},{x:rand(0.5,2.5),y:rand(-2,0)}];
 			}
-
-			function startTimer() {
-				timeLeft = ROUND_SECS;
-				updateTimerUI();
-				clearInterval(timerInterval);
-				timerInterval = setInterval(() => {
-					if (!gameRunning) {
-						clearInterval(timerInterval);
-						return;
-					}
-					timeLeft--;
-					updateTimerUI();
-					if (timeLeft <= 0) {
-						clearInterval(timerInterval);
-						endGame("time");
-					}
-				}, 1000);
-			}
-
-			function updateTimerUI() {
-				const el = document.getElementById("timer-val");
-				el.textContent = timeLeft;
-				el.className = timeLeft <= 10 ? "urgent" : "";
-			}
-
-			function loop() {
-				if (!gameRunning) return;
-				raf = requestAnimationFrame(loop);
-				drawBg();
-				drawFlash();
-				drawTrail();
-				spawnTimer++;
-				if (spawnTimer >= spawnInterval) {
-					spawnTimer = 0;
-					spawnInterval = Math.max(30, 88 - difficulty * 4.5);
-					items.push(new Item());
-					if (Math.random() < 0.3) items.push(new Item());
-					difficulty += 0.06;
+			upd() {
+				if (this.sliced) {
+					for (let i=0;i<2;i++) { this.ho[i].x+=this.hv[i].x; this.ho[i].y+=this.hv[i].y; this.hv[i].y+=this.grav; this.ha[i]-=0.028; }
+					return;
 				}
-				for (const it of items) {
-					it.upd();
-					it.draw();
-				}
-				items = items.filter((it) => it.alive());
-				for (const p of particles) {
-					p.upd();
-					p.draw();
-				}
-				particles = particles.filter((p) => p.a > 0);
-				for (const t of floats) {
-					t.upd();
-					t.draw();
-				}
-				floats = floats.filter((t) => t.a > 0);
-				trail = trail.slice(-18);
+				this.vy+=this.grav; this.x+=this.vx; this.y+=this.vy;
+				this.rot+=this.rs; this.scale=lerp(this.scale,1,0.15); this.wob+=0.15;
 			}
-
-			function handleMove(cx, cy) {
-				if (!gameRunning) return;
-				const rect = canvas.getBoundingClientRect();
-				const x = (cx - rect.left) * (W / rect.width),
-					y = (cy - rect.top) * (H / rect.height);
-				trail.push({ x, y });
-				if (lastPos) checkSlice(lastPos.x, lastPos.y, x, y);
-				lastPos = { x, y };
-			}
-
-			canvas.addEventListener("mousemove", (e) =>
-				handleMove(e.clientX, e.clientY),
-			);
-			canvas.addEventListener(
-				"touchmove",
-				(e) => {
-					e.preventDefault();
-					handleMove(e.touches[0].clientX, e.touches[0].clientY);
-				},
-				{ passive: false },
-			);
-			canvas.addEventListener("mouseleave", () => {
-				lastPos = null;
-				trail = [];
-			});
-			canvas.addEventListener("touchend", () => {
-				lastPos = null;
-				trail = [];
-			});
-
-			function startGame() {
-				score = 0;
-				lives = MAX_LIVES;
-				combo = 0;
-				items = [];
-				particles = [];
-				trail = [];
-				floats = [];
-				spawnTimer = 0;
-				spawnInterval = 88;
-				difficulty = 1;
-				unlocked.clear();
-				savedUnlocked = JSON.parse(
-					localStorage.getItem("easter_unlocked") || "[]",
-				);
-				buildCards();
-				popupQueue = [];
-				popupShowing = false;
-				document.getElementById("scoreDisplay").textContent = "0";
-				document.getElementById("lovePopup").classList.remove("show");
-				updateLivesUI();
-				updateProgress(0);
-				document.getElementById("overlay").style.display = "none";
-				gameRunning = true;
-				flashAlpha = 0;
-				cancelAnimationFrame(raf);
-				loop();
-				startTimer();
-			}
-
-			function endGame(reason) {
-				gameRunning = false;
-				cancelAnimationFrame(raf);
-				clearInterval(timerInterval);
-				if (score > best) {
-					best = score;
-					localStorage.setItem("easter_best", best);
+			alive() { return this.sliced?this.ha[0]>0:this.y<H+90; }
+			hit(x,y) { return !this.sliced&&Math.hypot(this.x-x,this.y-y)<this.hitR; }
+			slice(a) { this.sliced=true; this.sa=a; }
+			draw() {
+				if (this.sliced) { this.drawSl(); return; }
+				// pickle glow pulse
+				if (this.type==="pickle") {
+					const pulse=0.5+0.5*Math.sin(Date.now()*0.008);
+					ctx.save();
+					ctx.beginPath(); ctx.arc(this.x,this.y,this.r*this.scale*1.35,0,Math.PI*2);
+					ctx.fillStyle=`rgba(74,222,128,${0.18+pulse*0.18})`; ctx.fill();
+					ctx.restore();
 				}
-				document.getElementById("bestScore").textContent = best;
-				const title = document.getElementById("overlayTitle");
-				const sub = document.getElementById("overlaySubtitle");
-				if (reason === "time") {
-					title.textContent = "⏰ Time's Up!";
-					sub.textContent = `You scored ${score} pts · ${unlocked.size} letter${unlocked.size !== 1 ? "s" : ""} unlocked 💌`;
-				} else {
-					title.textContent = "💔 No Lives Left!";
-					sub.textContent = `You scored ${score} pts · ${unlocked.size} letter${unlocked.size !== 1 ? "s" : ""} unlocked 💌`;
-				}
-				document.getElementById("startBtn").textContent = "Play Again! 🐣";
-				document.getElementById("overlay").style.display = "flex";
+				ctx.save(); ctx.translate(this.x,this.y); ctx.rotate(this.rot);
+				ctx.scale(this.scale+Math.sin(this.wob)*0.018,this.scale);
+				const iP=this.type==="pickle";
+				ctx.shadowColor=iP?"rgba(22,163,74,.7)":"rgba(180,60,100,.13)"; ctx.shadowBlur=iP?28:14; ctx.shadowOffsetY=iP?0:6;
+				const g=ctx.createRadialGradient(0,-4,3,0,0,this.r);
+				g.addColorStop(0,this.color); g.addColorStop(1,this.ol+"55");
+				ctx.beginPath(); ctx.arc(0,0,this.r,0,Math.PI*2); ctx.fillStyle=g; ctx.fill();
+				ctx.lineWidth=2.5; ctx.strokeStyle=this.ol; ctx.stroke();
+				ctx.shadowBlur=0; ctx.font=`${this.r}px serif`; ctx.textAlign="center"; ctx.textBaseline="middle";
+				ctx.fillText(this.emoji,0,2); ctx.restore();
 			}
+			drawSl() {
+				for (let i=0;i<2;i++) {
+					ctx.save(); ctx.globalAlpha=Math.max(0,this.ha[i]);
+					ctx.translate(this.x+this.ho[i].x,this.y+this.ho[i].y);
+					ctx.rotate(this.rot+(i?0.4:-0.4));
+					ctx.beginPath();
+					if (!i) { ctx.moveTo(0,0); ctx.arc(0,0,this.r+2,this.sa,this.sa+Math.PI); }
+					else { ctx.moveTo(0,0); ctx.arc(0,0,this.r+2,this.sa+Math.PI,this.sa+Math.PI*2); }
+					ctx.closePath(); ctx.clip();
+					const g=ctx.createRadialGradient(0,-4,3,0,0,this.r);
+					g.addColorStop(0,this.color); g.addColorStop(1,this.ol+"55");
+					ctx.beginPath(); ctx.arc(0,0,this.r,0,Math.PI*2); ctx.fillStyle=g; ctx.fill();
+					ctx.font=`${this.r}px serif`; ctx.textAlign="center"; ctx.textBaseline="middle";
+					ctx.fillText(this.emoji,0,2); ctx.restore();
+				}
+			}
+		}
 
-			document.getElementById("startBtn").addEventListener("click", startGame);
+		function drawTrail() {
+			if (trail.length<2) return;
+			for (let i=1;i<trail.length;i++) {
+				const t=i/trail.length,p=trail[i-1],q=trail[i];
+				ctx.beginPath(); ctx.moveTo(p.x,p.y); ctx.lineTo(q.x,q.y);
+				ctx.strokeStyle=`hsla(320,90%,68%,${t*0.82})`; ctx.lineWidth=t*13;
+				ctx.lineCap="round"; ctx.shadowColor="rgba(244,114,182,.5)"; ctx.shadowBlur=8;
+				ctx.stroke(); ctx.shadowBlur=0;
+			}
+		}
 
-			mkBg();
-			buildCards();
-			drawBg();
-			updateProgress(0);
-			updateLivesUI();
-			document.getElementById("bestScore").textContent = best;
+		const DECO=[{e:"🌸",x:28,y:75,s:0.55,a:0.16},{e:"🌷",x:W-38,y:155,s:0.65,a:0.14},{e:"🐣",x:46,y:H-80,s:0.6,a:0.14},{e:"🌿",x:W-42,y:H-65,s:0.65,a:0.13},{e:"✨",x:W/2,y:46,s:0.5,a:0.11}];
+
+		function drawBg() {
+			ctx.fillStyle=bgGrad; ctx.fillRect(0,0,W,H);
+			for (const c of DECO) {
+				ctx.save(); ctx.globalAlpha=c.a; ctx.font=`${c.s*58}px serif`;
+				ctx.textAlign="center"; ctx.textBaseline="middle"; ctx.fillText(c.e,c.x,c.y); ctx.restore();
+			}
+			const g=ctx.createLinearGradient(0,H-30,0,H);
+			g.addColorStop(0,"rgba(134,239,172,.28)"); g.addColorStop(1,"rgba(74,222,128,.38)");
+			ctx.fillStyle=g; ctx.beginPath(); ctx.moveTo(0,H-16);
+			for (let x=0;x<=W;x+=20) ctx.quadraticCurveTo(x+10,H-26,x+20,H-16);
+			ctx.lineTo(W,H); ctx.lineTo(0,H); ctx.closePath(); ctx.fill();
+		}
+
+		function checkSlice(x1,y1,x2,y2) {
+			for (const it of items) if (!it.sliced&&(it.hit(x1,y1)||it.hit(x2,y2))) doSlice(it,x1,y1,x2,y2);
+		}
+
+		function doSlice(it,x1,y1,x2,y2) {
+			it.slice(Math.atan2(y2-y1,x2-x1));
+			if (it.type==="bomb") {
+				lives=Math.max(0,lives-1);
+				score=Math.max(0,score+it.pts);
+				document.getElementById("scoreDisplay").textContent=score;
+				updateLivesUI(); updateProgress(score); checkMilestones(score);
+				floats.push(new FloatText(it.x,it.y-24,"💔 −20","#ef4444"));
+				combo=0; showCombo();
+				for (let i=0;i<14;i++) particles.push(new Particle(it.x,it.y,["#fbbf24","#ffe4e6","#fff"][rInt(0,2)]));
+				flashScreen("rgba(239,68,68,0.18)");
+				if (lives<=0) endGame("out of lives");
+			} else if (it.type==="penalty") {
+				score=Math.max(0,score+it.pts);
+				document.getElementById("scoreDisplay").textContent=score;
+				updateProgress(score); checkMilestones(score);
+				combo=0; showCombo();
+				floats.push(new FloatText(it.x,it.y-24,"🐥 −10","#f97316"));
+				for (let i=0;i<10;i++) particles.push(new Particle(it.x,it.y,["#fef9c3","#fbbf24","#fff"][rInt(0,2)]));
+			} else if (it.type==="pickle") {
+				combo++;
+				const pts=it.pts*combo;
+				score+=pts;
+				document.getElementById("scoreDisplay").textContent=score;
+				updateProgress(score); checkMilestones(score); showCombo();
+				floats.push(new FloatText(it.x,it.y-28,`🥒 +${pts}`,"#16a34a"));
+				const pcols=["#bbf7d0","#4ade80","#fff","#86efac","#fde68a"];
+				for (let i=0;i<26;i++) particles.push(new Particle(it.x,it.y,pcols[rInt(0,pcols.length-1)]));
+				flashScreen("rgba(74,222,128,0.22)");
+			} else {
+				combo++;
+				const pts=it.pts*combo;
+				score+=pts;
+				document.getElementById("scoreDisplay").textContent=score;
+				updateProgress(score); checkMilestones(score); showCombo();
+				const lb=combo>=5?["🔥 BLAZING!","🌟 AMAZING!","💫 STELLAR!"]:combo>=3?["✨ COMBO!","🎉 SWEET!","💥 WOW!"]:null;
+				floats.push(new FloatText(it.x,it.y-28,lb?lb[rInt(0,lb.length-1)]:`+${pts}`,lb?"#f59e0b":"#c4407a"));
+				const cols=[it.ol,it.color,"#fff","#f9a8d4","#c4b5fd"];
+				for (let i=0;i<18;i++) particles.push(new Particle(it.x,it.y,cols[rInt(0,cols.length-1)]));
+			}
+		}
+
+		let flashAlpha=0,flashColor="rgba(239,68,68,0.2)";
+		function flashScreen(color) { flashAlpha=1; flashColor=color; }
+		function drawFlash() {
+			if (flashAlpha<=0) return;
+			ctx.save(); ctx.globalAlpha=flashAlpha; ctx.fillStyle=flashColor; ctx.fillRect(0,0,W,H); ctx.restore();
+			flashAlpha=Math.max(0,flashAlpha-0.07);
+		}
+
+		function showCombo() {
+			const el=document.getElementById("comboDisplay");
+			if (combo>=3) { el.textContent=`🔥 ${combo}x COMBO!`; el.style.opacity="1"; }
+			else el.style.opacity="0";
+			clearTimeout(comboTimer);
+			comboTimer=setTimeout(()=>{ combo=0; el.style.opacity="0"; },1200);
+		}
+
+		function updateLivesUI() {
+			const hearts=Math.max(0,lives);
+			document.getElementById("lives-box").textContent="❤️".repeat(hearts)||"💔";
+		}
+
+		function startTimer() {
+			timeLeft=ROUND_SECS; updateTimerUI(); clearInterval(timerInterval);
+			timerInterval=setInterval(()=>{
+				if (!gameRunning) { clearInterval(timerInterval); return; }
+				timeLeft--; updateTimerUI();
+				if (timeLeft<=0) { clearInterval(timerInterval); endGame("time"); }
+			},1000);
+		}
+
+		function updateTimerUI() {
+			const el=document.getElementById("timer-val");
+			el.textContent=timeLeft; el.className=timeLeft<=10?"urgent":"";
+		}
+
+		function loop() {
+			if (!gameRunning) return;
+			raf=requestAnimationFrame(loop);
+			drawBg(); drawFlash(); drawTrail();
+			spawnTimer++; frameCount++;
+			if (spawnTimer>=spawnInterval) {
+				spawnTimer=0; spawnInterval=Math.max(30,88-difficulty*4.5);
+				items.push(new Item());
+				if (Math.random()<0.3) items.push(new Item());
+				difficulty+=0.06;
+			}
+			if (!pickleSpawned && frameCount>=pickleSpawnFrame) {
+				pickleSpawned=true;
+				const pDef=DEFS.find(d=>d.type==="pickle");
+				const pit=new Item(pDef);
+				items.push(pit);
+			}
+			for (const it of items) { it.upd(); it.draw(); }
+			items=items.filter(it=>it.alive());
+			for (const p of particles) { p.upd(); p.draw(); }
+			particles=particles.filter(p=>p.a>0);
+			for (const t of floats) { t.upd(); t.draw(); }
+			floats=floats.filter(t=>t.a>0);
+			trail=trail.slice(-18);
+		}
+
+		function handleMove(cx,cy) {
+			if (!gameRunning) return;
+			const rect=canvas.getBoundingClientRect();
+			const x=(cx-rect.left)*(W/rect.width),y=(cy-rect.top)*(H/rect.height);
+			trail.push({x,y});
+			if (lastPos) checkSlice(lastPos.x,lastPos.y,x,y);
+			lastPos={x,y};
+		}
+
+		canvas.addEventListener("mousemove",e=>handleMove(e.clientX,e.clientY));
+		canvas.addEventListener("touchmove",e=>{e.preventDefault();handleMove(e.touches[0].clientX,e.touches[0].clientY);},{passive:false});
+		canvas.addEventListener("mouseleave",()=>{lastPos=null;trail=[];});
+		canvas.addEventListener("touchend",()=>{lastPos=null;trail=[];});
+
+		function startGame() {
+			score=0; lives=MAX_LIVES; combo=0;
+			items=[]; particles=[]; trail=[]; floats=[];
+			spawnTimer=0; spawnInterval=88; difficulty=1;
+			pickleSpawned=false; pickleSpawnFrame=Math.floor(rand(300,4200)); frameCount=0;
+			unlocked.clear(); savedUnlocked = JSON.parse(localStorage.getItem('easter_unlocked') || '[]'); buildCards(); popupQueue=[]; popupShowing=false;
+			document.getElementById("scoreDisplay").textContent="0";
+			document.getElementById("lovePopup").classList.remove("show");
+			updateLivesUI(); updateProgress(0);
+			document.getElementById("overlay").style.display="none";
+			gameRunning=true; flashAlpha=0;
+			cancelAnimationFrame(raf); loop(); startTimer();
+		}
+
+		function endGame(reason) {
+			gameRunning=false; cancelAnimationFrame(raf); clearInterval(timerInterval);
+			if (score>best) { best=score; localStorage.setItem('easter_best', best); }
+			document.getElementById("bestScore").textContent=best;
+			const title=document.getElementById("overlayTitle");
+			const sub=document.getElementById("overlaySubtitle");
+			if (reason==="time") {
+				title.textContent="⏰ Time's Up!";
+				sub.textContent=`You scored ${score} pts · ${unlocked.size} letter${unlocked.size!==1?"s":""} unlocked 💌`;
+			} else {
+				title.textContent="💔 No Lives Left!";
+				sub.textContent=`You scored ${score} pts · ${unlocked.size} letter${unlocked.size!==1?"s":""} unlocked 💌`;
+			}
+			document.getElementById("startBtn").textContent="Play Again! 🐣";
+			document.getElementById("overlay").style.display="flex";
+		}
+
+		document.getElementById("startBtn").addEventListener("click",startGame);
+
+		mkBg(); buildCards(); drawBg(); updateProgress(0); updateLivesUI(); document.getElementById("bestScore").textContent = best;
 		</script>
 	</body>
 </html>
