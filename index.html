@@ -1047,6 +1047,30 @@
 					title: "Always & Forever",
 					msg: "Forever isn't long enough when it's with you. You are my person — my best friend, my biggest adventure, my greatest love. I promise to keep choosing you, every day, for all the days we have.",
 				},
+				{
+					score: 600,
+					emoji: "🌙",
+					title: "Even On the Hard Days",
+					msg: "I never want you to wonder if I love you on the days we disagree or the nights we feel far apart. I do — deeply, completely, without condition. Hard days are just proof we're worth fighting for.",
+				},
+				{
+					score: 750,
+					emoji: "🫶",
+					title: "The Little Things",
+					msg: "It's the way you hum when you're thinking. The way you remember tiny details I mentioned once in passing. The way you exist — that's what I'm grateful for. Every quiet, ordinary, beautiful thing.",
+				},
+				{
+					score: 875,
+					emoji: "🌠",
+					title: "My Favorite Story",
+					msg: "If I could go back and choose any life, I'd choose this one. The one where I find you. Our story is my favorite one — and I can't wait to see all the chapters still ahead of us.",
+				},
+				{
+					score: 1000,
+					emoji: "👑",
+					title: "You Are Everything",
+					msg: "A thousand points for the girl who has my whole heart. You are my calm, my joy, my home, my greatest adventure. I love you more than any game could ever measure. Happy Easter, Kanna. 💕",
+				},
 			];
 
 			const unlocked = new Set();
@@ -1275,7 +1299,7 @@
 				},
 			];
 
-			const ROUND_SECS = 50;
+			const ROUND_SECS = 90;
 			const MAX_LIVES = 3;
 
 			const canvas = document.getElementById("canvas");
@@ -1386,9 +1410,9 @@
 					Object.assign(this, d);
 					this.x = rand(60, W - 60);
 					this.y = H + 60;
-					const sp = rand(12, 16 + difficulty * 0.4),
+					const sp = rand(10, 13 + difficulty * 0.4),
 						ang = rand(-Math.PI * 0.84, -Math.PI * 0.16);
-					this.vx = Math.cos(ang) * sp * 0.38;
+					this.vx = Math.cos(ang) * sp * 0.22;
 					this.vy = -sp;
 					this.grav = 0.22;
 					this.rot = rand(-0.3, 0.3);
